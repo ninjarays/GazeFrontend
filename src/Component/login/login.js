@@ -1,34 +1,38 @@
-import react,{useState} from "react"
+import {useEffect, useState} from "react"
+import { useDispatch } from 'react-redux';
 import "./login.css"
 
+import { loginUser } from "../../features/user/userSlice"
+
 const Login= ()=>{
-
-    const [user,setUser] =useState({
+    const dispatch = useDispatch();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    // const [user,setUser] =useState({
       
-        email:"",
-        password:"",
+    //     email:"",
+    //     password:"",
         
-    })
+    // })
 
-    const handleChange= e =>{
-        const {name,value}=e.target
+    // const handleChange= e =>{
+    //     const {name,value}=e.target
 
-        setUser({
-            ...user,
-            [name]:value
-        })
+    //     setUser({
+    //         ...user,
+    //         [name]:value
+    //     })
         
-        // console.log(name,value)
-    }
+    //     // console.log(name,value)
+    // }
 
     return (
         
         <div className="login">
             <h1>Gaze Login</h1>
-            {console.log("User",user)}
-            <input type="text" name="email" value={user.email} placeholder="Email" onChange={handleChange}></input>
-            <input type="password" name="password" value={user.password} placeholder="Password" onChange={handleChange}></input>
-            <div className="button">Login</div>    
+            <input type="text" name="email" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)}></input>
+            <input type="password" name="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)}></input>
+            <div className="button" onClick={() => dispatch(loginUser([email, password]))}>Login</div>    
         </div>
     )
 }
