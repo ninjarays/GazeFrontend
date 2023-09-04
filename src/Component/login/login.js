@@ -1,13 +1,32 @@
-import {useEffect, useState} from "react"
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from "react"
+import { useDispatch , useSelector} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+
 import "./login.css"
 
 import { loginUser } from "../../features/user/userSlice"
 
 const Login= ()=>{
+    const user = useSelector((state) => state.user.userInfo)
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+
+    const navigateHome = () => {
+        navigate('/');
+    };
+
+    useEffect(()=>{
+        if(user) {
+            navigateHome();
+        }
+    },[user])
+
+
+
+
     // const [user,setUser] =useState({
       
     //     email:"",

@@ -20,7 +20,7 @@ const userSlice = createSlice(
         name:"user",
         initialState,
         reducers:{
-            logOutUser: ((state, payload) => {
+            logOutUser: ((state) => {
                 state.userInfo = null;
             }),
         },
@@ -28,17 +28,14 @@ const userSlice = createSlice(
                 builder
                   .addCase(loginUser.pending, (state) => {
                     state.status = 'loading';
-                    console.log("getting user");
                   })
                   .addCase(loginUser.fulfilled, (state, action) => {
                     state.status = 'idle';
                     state.userInfo = action.payload;
-                    console.log("got user");
                   })
                   .addCase(loginUser.rejected, (state,action) => {
                     state.status = 'idle';
                     state.userInfo = action.payload;
-                    console.log("error user");
                   });
             }
         

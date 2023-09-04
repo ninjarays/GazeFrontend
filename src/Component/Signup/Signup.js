@@ -1,53 +1,53 @@
-import react,{useState} from "react"
+import react,{useEffect, useState} from "react"
 import "./Signup.css"
-import axios from "axios"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { registerNewUser } from "../../features/admin/adminSlice"
 
 
 const Signup= ()=>{
+    const user = useSelector((state) => state.user.userInfo);
+    const status = useSelector((state) => state.admin.registerUser);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [name, setName] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [reEnterPassword, setReEnterPassword] = useState("");
 
-    const [user,setUser] =useState({
-        name:"",
-        email:"",
-        password:"",
-        reEnterpassword:""
-    })
+    const navigateHome = () => {
+        navigate('/');
+    };
 
-    
-
-    const handleChange= e =>{
-        const {name,value}=e.target
-
-        setUser({
-            ...user,
-            [name]:value
-        })
-        // console.log(name,value)
-    }
-
-    const signup=()=>{
-        const {name,email,password,reEnterpassword}=user
-        if(name&&email&&password&&(password===reEnterpassword)){
-            axios.post("http://localhost:9002/signup")
-            .then(res=>console.log(res)) 
+    useEffect(() => {
+        if(status === "added"){
+            console.log("loading off");
+            navigateHome();
         }
-        else{
-            alert("invalid input")
+        else if(status === "loading"){
+            console.log("loading is on");
         }
-       
-    }
+
+    },[status])
+
+
+    useEffect(() => {
+        if(!user || !user.userCred.role === "admin"){
+            navigateHome();
+        }
+    },[user])
 
     return (
         
         <div className="Signup">
             <h1>Gaze Signup</h1>
-            {console.log("User",user)}
-            <input type="text" name="name" value={user.name}  placeholder="Name" onChange={handleChange}></input>
-            <input type="text" name="email" value={user.email} placeholder="Email" onChange={handleChange}></input>
-            <input type="password" name="password" value={user.password} placeholder="Password" onChange={handleChange}></input>
-            <input type="password" name="reEnterpassword" value={user.reEnterpassword} placeholder="Re-enter-Password" onChange={handleChange}></input>
-            <div className="button" onClick={signup}>Sign up</div>   
-            <div>or</div> 
-            <div className="button">Login</div>
+            <input type="text" name="name" value={name}  placeholder="Name" onChange={(e) => setName(e.target.value)}></input>
+            <input type="text" name="email" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)}></input>
+            <input type="password" name="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)}></input>
+            <input type="password" name="reEnterpassword" value={reEnterPassword} placeholder="Re-enter-Password" onChange={(e) => setReEnterPassword(e.target.value)}></input>
+            <div className="button" onClick={()=>{
+                console.log("clicked");
+                dispatch(registerNewUser([name,email,password,reEnterPassword, user.userCred.role]));}}>Register</div>  
         </div>
     )
 }
