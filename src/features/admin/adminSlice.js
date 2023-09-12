@@ -4,6 +4,7 @@ import axios from "../../config/axios";
 const initialState = {
     editUser:"idle",
     registerUser:"idle",
+    changePassword:{status:"idle", error:null},
     error: null
 }
 
@@ -47,6 +48,16 @@ const adminSlice = createSlice(
                 state.editUser = "idle"
                 state.error = null;
             }),
+            changePasswordLoading:(((state) => {
+              state.changePassword.status = "loading";
+          })),
+            changePasswordSuccess:(((state) => {
+              state.changePassword.status = "success";
+          })),
+            changePasswordError:(((state, action) => {
+              state.changePassword.status = "error";
+              state.changePassword.error = action.payload;
+          })),
         },
         extraReducers:(builder) => {
                 builder

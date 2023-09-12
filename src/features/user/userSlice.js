@@ -42,9 +42,11 @@ const userSlice = createSlice(
         extraReducers:(builder) => {
                 builder
                   .addCase(loginUser.pending, (state) => {
+                    console.log("logging");
                     state.status = 'loading';
                   })
                   .addCase(loginUser.fulfilled, (state, action) => {
+                    console.log("Logged In");
                     state.status = 'idle';
                     state.userInfo = action.payload;
                     state.error = null

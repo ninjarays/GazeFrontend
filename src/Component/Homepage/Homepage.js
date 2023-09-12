@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { logOutUser } from "../../features/user/userSlice";
 import { Navigate, useNavigate } from "react-router-dom";
 import Card from "../Card/Card";
+import { Button } from "react-bootstrap";
 
 const Homepage= ()=>{
     const user = useSelector((state) => state.user.userInfo)
@@ -12,6 +13,10 @@ const Homepage= ()=>{
         navigate('/login');
         // return <Navigate to={"/login"}/>
     };
+
+    const navigateDashboardPage = () => {
+      navigate('/dashboard');
+  };
 
     useEffect(()=>{
         if(!user) {
@@ -22,6 +27,7 @@ const Homepage= ()=>{
     // const dispatch = useDispatch();
     return (
         <div className="App">
+          {!user?<div></div>:["admin","super_admin"].includes(user.userCred.role) ?<Button onClick={() => {navigateDashboardPage()}}>Dashboard</Button> : <div></div> }
        <div className="row">
         <div className='column'>
         <Card
