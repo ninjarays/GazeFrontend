@@ -59,6 +59,8 @@ function Header() {
     //     </Navbar.Collapse>
     //     }   
     // </Navbar>
+
+    
     <Navbar collapseOnSelect expand="lg" bg="light" variant="light" style={{width: "90%"}}>
     <Navbar.Brand onClick={navigateHomePage}>Gaze</Navbar.Brand>
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />

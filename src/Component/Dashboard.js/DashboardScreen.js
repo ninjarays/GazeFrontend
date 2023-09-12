@@ -5,6 +5,7 @@ import EmployeeRegistrationForm from './EmployeeRegistrationForm';
 import { Button, Col, Modal, Row, Tab, Tabs} from 'react-bootstrap';
 import EmployeeEditForm from './EmployeeEditForm';
 import AdminRegisterForm from './AdminRegisterForm';
+import EmployeeList from './EmployeeList';
 
 function DashboardScreen(props) {
     const user = useSelector((state) => state.user.userInfo);
@@ -74,7 +75,7 @@ function DashboardScreen(props) {
                 onSelect={(k) => setKey(k)}
             >
             <Tab eventKey="employees" title="Employees">
-                <div>Employees</div>
+                <EmployeeList access_token={user.access_token} />
             </Tab>
             <Tab eventKey="orders" title="Orders">
                 <div>Orders</div>
