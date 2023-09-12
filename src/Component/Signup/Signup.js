@@ -47,7 +47,7 @@ const Signup= ()=>{
             <input type="password" name="reEnterpassword" value={reEnterPassword} placeholder="Re-enter-Password" onChange={(e) => setReEnterPassword(e.target.value)}></input>
             <div className="button" onClick={()=>{
                 console.log("clicked");
-                dispatch(registerNewUser([name,email,password,reEnterPassword, user.userCred.role]));}}>Register</div>  
+                dispatch(registerNewUser([name,email,password,reEnterPassword, user.userCred.role, user.token]));}}>Register</div>  
         </div>
     )
 }

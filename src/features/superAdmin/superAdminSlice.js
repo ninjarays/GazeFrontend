@@ -2,8 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../config/axios";
 
 const initialState = {
-    editUser:"idle",
-    registerUser:"idle",
+    registerAdmin:"idle",
     error: null
 }
 
@@ -11,7 +10,7 @@ export const registerNewUser = createAsyncThunk(
     'user/registerNewUser',
     async (userInfo) => {
         try {
-            const response = await axios.post('http://localhost:5001/api/admin/register', userInfo, {
+            const response = await axios.post('http://localhost:5001/api/super_admin/register_admin', userInfo, {
                 headers:{"Authorization":`Bearer ${userInfo["jwt"]}`},
             });
             return response.data
@@ -22,8 +21,8 @@ export const registerNewUser = createAsyncThunk(
     }
 )
 
-export const editUser = createAsyncThunk(
-    'user/editUser',
+export const registerNewAdmin = createAsyncThunk(
+    'user/registerNewAdmin',
     async (userInfo) => {
         try {
             const response = await axios.post('http://localhost:5001/api/admin/edit/user', userInfo, {
@@ -37,46 +36,34 @@ export const editUser = createAsyncThunk(
     }
 )
 
-const adminSlice = createSlice(
+const superAdminSlice = createSlice(
     {
-        name:"admin",
+        name:"superAdmin",
         initialState,
         reducers:{
             refreshLoading: ((state) => {
-                state.registerUser = "idle";
-                state.editUser = "idle"
+                state.registerAdmin = "idle";
                 state.error = null;
             }),
         },
         extraReducers:(builder) => {
                 builder
-                  .addCase(registerNewUser.pending, (state) => {
-                    state.registerUser = 'loading';
+                  .addCase(registerNewAdmin.pending, (state) => {
+                    state.registerAdmin = 'loading';
                   })
-                  .addCase(registerNewUser.fulfilled, (state) => {
-                    state.registerUser = 'added';
+                  .addCase(registerNewAdmin.fulfilled, (state) => {
+                    state.registerAdmin = 'added';
                     state.error = null
                   })
-                  .addCase(registerNewUser.rejected, (state,action) => {
-                    state.registerUser = 'error';
+                  .addCase(registerNewAdmin.rejected, (state,action) => {
+                    state.registerAdmin = 'error';
                     state.error = action.error.message;
                   })
-                  .addCase(editUser.pending, (state) => {
-                    state.editUser = 'loading';
-                  })
-                  .addCase(editUser.fulfilled, (state) => {
-                    state.editUser = 'added';
-                    state.error = null
-                  })
-                  .addCase(editUser.rejected, (state,action) => {
-                    state.editUser = 'error';
-                    state.error = action.error.message;
-                  });
             }
         
     }
 )
 
-export const {refreshLoading} = adminSlice.actions;
+export const {refreshLoading} = superAdminSlice.actions;
 
-export default adminSlice.reducer;
+export default superAdminSlice.reducer;

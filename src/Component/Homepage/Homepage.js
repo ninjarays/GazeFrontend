@@ -1,31 +1,102 @@
-import react from "react"
+import react, { useEffect } from "react"
 import "./Homepage.css"
 import { useDispatch, useSelector } from "react-redux"
 import { logOutUser } from "../../features/user/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import Card from "../Card/Card";
 
 const Homepage= ()=>{
     const user = useSelector((state) => state.user.userInfo)
     const navigate = useNavigate();
     const navigateLoginPage = () => {
         navigate('/login');
+        // return <Navigate to={"/login"}/>
     };
 
-    const navigateRegisterPage = () => {
-        navigate('/register');
-    };
+    useEffect(()=>{
+        if(!user) {
+            navigateLoginPage();
+        }
+    },[user])
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     return (
-        
-        <div className ="homepage">
-            <h1>Welcome</h1>
-            {user?<div className ="button" onClick={() => dispatch(logOutUser())}>Logout</div>: <></>}
-
-            {(user && user.userCred.role === "admin")?<div className ="button" onClick={navigateRegisterPage}>Register</div>: <></>}
-            
-            {!user?<div className ="button" onClick={navigateLoginPage}>Login</div>: <></>}
+        <div className="App">
+       <div className="row">
+        <div className='column'>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="Procurment"
+          buttonText="Navigate.."
+          />
         </div>
+
+        <div className='column'>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Inventory"
+          title="Procurment"
+          buttonText="Navigate.."
+          />
+        </div>
+
+        <div className='column'>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="Manufacture"
+          buttonText="Navigate.."
+          />
+        </div>
+        <div className='column'>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="Procurment"
+          buttonText="Navigate.."
+          />
+        </div>
+      </div>
+
+      <div className="row">
+        <div className='column'>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="Finance"
+          buttonText="Navigate.."
+          />
+        </div>
+
+        <div className='column'>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="Operations"
+          buttonText="Navigate.."
+          />
+        </div>
+
+        <div className='column'>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="Sales"
+          buttonText="Navigate.."
+          />
+        </div>
+        <div className='column'>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="Procurment"
+          buttonText="Navigate.."
+          />
+        </div>
+      </div>
+
+  </div>
     )
 }
 
