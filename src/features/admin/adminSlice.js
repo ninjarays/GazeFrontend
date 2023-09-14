@@ -5,6 +5,7 @@ const initialState = {
     editUser:"idle",
     registerUser:"idle",
     changePassword:{status:"idle", error:null},
+    terminateUser:{status:"idle", error:null},
     error: null
 }
 
@@ -12,7 +13,7 @@ export const registerNewUser = createAsyncThunk(
     'user/registerNewUser',
     async (userInfo) => {
         try {
-            const response = await axios.post('http://localhost:5001/api/admin/register', userInfo, {
+            const response = await axios.post('/api/admin/register', userInfo, {
                 headers:{"Authorization":`Bearer ${userInfo["jwt"]}`},
             });
             return response.data
@@ -27,8 +28,10 @@ export const editUser = createAsyncThunk(
     'user/editUser',
     async (userInfo) => {
         try {
-            const response = await axios.post('http://localhost:5001/api/admin/edit/user', userInfo, {
+            const response = await axios.put('/api/admin/edit/user', userInfo, {
                 headers:{"Authorization":`Bearer ${userInfo["jwt"]}`},
+                // withCredentials:true
+
             });
             return response.data
           } catch (error) {
@@ -45,7 +48,8 @@ const adminSlice = createSlice(
         reducers:{
             refreshLoading: ((state) => {
                 state.registerUser = "idle";
-                state.editUser = "idle"
+                state.editUser = "idle";
+                state.changePassword = {status:"idle", error:null};
                 state.error = null;
             }),
             changePasswordLoading:(((state) => {
@@ -58,6 +62,16 @@ const adminSlice = createSlice(
               state.changePassword.status = "error";
               state.changePassword.error = action.payload;
           })),
+          terminateUserLoading:(((state) => {
+            state.editUser = "loading";
+        })),
+          terminateUserSuccess:(((state) => {
+            state.editUser = "added";
+        })),
+          terminateUserError:(((state, action) => {
+            state.editUser = "error";
+            state.editUser = action.payload;
+        })),
         },
         extraReducers:(builder) => {
                 builder
@@ -81,13 +95,13 @@ const adminSlice = createSlice(
                   })
                   .addCase(editUser.rejected, (state,action) => {
                     state.editUser = 'error';
-                    state.error = action.error.message;
+                    state.changePassword.error = action.error.message;
                   });
             }
         
     }
 )
 
-export const {refreshLoading} = adminSlice.actions;
+export const {refreshLoading, changePasswordError, changePasswordSuccess, changePasswordLoading ,terminateUserError, terminateUserLoading, terminateUserSuccess} = adminSlice.actions;
 
 export default adminSlice.reducer;

@@ -14,8 +14,9 @@ export const fetchAllUsers = createAsyncThunk(
   'dashboard/fetchAllUsers',
    async (info) => {
   try {
-    const response = await axios.get('http://localhost:5001/api/admin/get_all_users',{
-      headers:{"Authorization":`Bearer ${info}`}
+    const response = await axios.get('/api/admin/get_all_users',{
+      headers:{"Authorization":`Bearer ${info}`},
+      // withCredentials:true
     });
     return response.data;
   } catch (error) {

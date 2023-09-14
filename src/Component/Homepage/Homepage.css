@@ -1,25 +1,13 @@
-.App {
+.home-tabs {
     display: flex;
     flex-direction: column;
-    text-align: center;
     justify-content: center;
+    align-items: center;
+    width: 90%;
     height: 100%;
-    /* background-color:rgb(248, 231, 231) ; */
   }
-  
-  .column {
-    float: left;
-    width: 20%;
-    /* padding: 0 10px; */
-    padding:30px;
-  }
-  
-  .row {
-    margin: 0 -5px;
-  }
-  
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+
+.col{
+  display: flex;
+  justify-content: center;
+}

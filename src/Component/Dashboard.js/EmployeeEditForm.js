@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-import { editUser, refreshLoading } from '../../features/admin/adminSlice';
+import { editUser, refreshLoading, terminateUserError, terminateUserLoading, terminateUserSuccess } from '../../features/admin/adminSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import axios from '../../config/axios';
 
-const EmployeeEditForm = (employee) => {
+const EmployeeEditForm = (props) => {
   const user = useSelector((state) => state.user.userInfo);
     const status = useSelector((state) => state.admin);
     const [show, setShow] = useState(false)
@@ -26,12 +27,13 @@ const EmployeeEditForm = (employee) => {
     },[user])
 
   const [formData, setFormData] = useState({
-    employeeName: '',
-    email: '',
-    phoneNumber: '',
-    birthDate: '',
-    joiningDate: '',
-    role: '',
+    employeeName: props.data.employeeName,
+    email: props.data.email,
+    phoneNumber: props.data.phoneNumber,
+    birthDate: props.data.birthDate.slice(0,10),
+    joiningDate: props.data.joiningDate.slice(0,10),
+    role: props.data.role,
+    employeeId:props.data.employeeId
   });
 
   const resetForm = () => {
@@ -53,17 +55,16 @@ const EmployeeEditForm = (employee) => {
         console.log("loading off");
         setTimeout(() => {
             dispatch(refreshLoading());
-        }, 4500)
+            props.closeForm(false)
+        }, 2000)
     }
     else if(status.editUser === "error"){
         setShow(true);
         setVariant("danger")
         resetForm();
-        console.log("loading off");
         setTimeout(() => {
-            console.log("dispaching");
             dispatch(refreshLoading());
-        }, 4500)
+        }, 2000)
     }
     else if(status.editUser === "loading"){
         console.log("loading is on");
@@ -89,23 +90,22 @@ const EmployeeEditForm = (employee) => {
   };
   
 
-  const deleteUser = (e) => {
-    e.preventDefault();
-    // Add your form submission logic here
-    console.log(formData);
-  };
-
-  const changeUserPassword = (e) => {
-    e.preventDefault();
-    // Add your form submission logic here
-    console.log(formData);
+  const deleteUser = async () => {
+    dispatch(terminateUserLoading());
+    await axios.put('/api/admin/delete_user', {employeeId:props.data.employeeId},{
+      headers:{"Authorization":`Bearer ${user.access_token}`},
+  }).then((response) => {
+      dispatch(terminateUserSuccess(response.data));
+  }).catch((err) => {
+      dispatch(terminateUserError(err.response.data.message));
+  })
   };
 
   return (
     <>
     {show?
     <Alert variant={variant} onClose={() => setShow(false)} dismissible>
-        <Alert.Heading>{status.error ? status.error : "Employee Edited"}</Alert.Heading>
+        <Alert.Heading>{status.error ? status.error : "Done"}</Alert.Heading>
       </Alert> : <div></div>}
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="employeeName">
@@ -179,10 +179,6 @@ const EmployeeEditForm = (employee) => {
       </Form.Group>
 
       <Button onClick={() => { deleteUser()}}>
-        Terminate User
-      </Button>
-
-      <Button onClick={() => { changeUserPassword()}}>
         Terminate User
       </Button>
 

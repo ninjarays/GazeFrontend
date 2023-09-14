@@ -20,6 +20,7 @@ function Header() {
     const navigateRegisterPage = () => {
         navigate('/register');
     };
+
     const navigateHomePage = () => {
         navigate('/');
     };
@@ -61,12 +62,12 @@ function Header() {
     // </Navbar>
 
     
-    <Navbar collapseOnSelect expand="lg" bg="light" variant="light" style={{width: "90%"}}>
+    <Navbar collapseOnSelect expand="lg" bg="light" variant="light" style={{paddingRight: "5%",paddingLeft:"5%", width:"100%"}}>
     <Navbar.Brand onClick={navigateHomePage}>Gaze</Navbar.Brand>
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav">
       <Nav className="mr-auto">
-      {user && ["admin", "super_admin"].includes(user.userCred.role) ? 
+      {!user? <div></div> :  ["admin", "super_admin"].includes(user.userCred.role || null) ? 
         <Nav.Link onClick={navigateDashBoard}>Dashboard</Nav.Link>
         :
         <div></div>
@@ -77,11 +78,11 @@ function Header() {
         <Nav.Link onClick={navigateLoginPage}>Login</Nav.Link>
         }
       </Nav>
-      <Nav>
+      {/* <Nav>
         {!user ? <div></div>:
         <Navbar.Text>Signed in as {user.userCred.role}</Navbar.Text>
         }
-      </Nav>
+      </Nav> */}
     </Navbar.Collapse>
   </Navbar>
     );

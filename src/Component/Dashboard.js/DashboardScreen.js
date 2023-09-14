@@ -11,10 +11,10 @@ function DashboardScreen(props) {
     const user = useSelector((state) => state.user.userInfo);
     const [key, setKey] = useState("employees")
     const [modalShow, setModalShow] = useState(false)
-    const [editShow, setEditShow] = useState(false)
     const [adminShow, setAdminShow] = useState(false)
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [reload, setReload] = useState("dashboardReload")
 
     const navigateHome = () => {
         navigate('/');
@@ -24,7 +24,7 @@ function DashboardScreen(props) {
         if(!user){
             navigateHome();
         }
-        if( !["super_admin", "admin"].includes(user.userCred.role)){
+        else if( !["super_admin", "admin"].includes(user.userCred.role)){
             navigateHome();
         }
     },[user])
@@ -34,48 +34,43 @@ function DashboardScreen(props) {
         <div>
             <Row >
                 <Col>
-                    <Button variant="primary" onClick={() => setModalShow(true)}>
+                    <Button variant="primary" onClick={() => {
+                      setModalShow(true);
+                    }}>
                         Add Employee
                     </Button>
                 </Col>
-                <Col>
-                    <Button variant="primary" onClick={() => setEditShow(true)}>
-                        Edit Employee
-                    </Button>
-                </Col>
                 {
-                    user && user.userCred.role === "super_admin" ? 
+                  !user? <div></div>:user.userCred.role === "super_admin" ? 
                     <Col>
-                    <Button variant="primary" onClick={() => setAdminShow(true)}>
-                        Add New Employee
+                    <Button variant="primary" onClick={() => {
+                      setAdminShow(true);
+                    }}>
+                        Add Admin
                     </Button>
                     </Col>
                     :
                     <div></div>
                 }
-                
             </Row>
             
   
             <AddEmployeeForm
               show={modalShow}
-              onHide={() => setModalShow(false)}
-            />
-            <EditEmployeeForm
-              show={editShow}
-              onHide={() => setEditShow(false)}
+              onHide={() => {setModalShow(false);setReload();}}
             />
             <AddNewAdminForm
               show={adminShow}
-              onHide={() => setAdminShow(false)}
+              onHide={() => {setAdminShow(false);setReload();}}
             />
             <Tabs
                 id="controlled-tab-example"
                 activeKey={key}
                 onSelect={(k) => setKey(k)}
             >
-            <Tab eventKey="employees" title="Employees">
-                <EmployeeList access_token={user.access_token} />
+            <Tab eventKey="employees" title="Employees" >
+                {!user? <div></div>:
+                <EmployeeList access_token={user.access_token} key={reload}/>}
             </Tab>
             <Tab eventKey="orders" title="Orders">
                 <div>Orders</div>
@@ -108,26 +103,6 @@ function AddEmployeeForm(props) {
     );
   }
 
-function EditEmployeeForm(props) {
-    return (
-        <Modal
-        {...props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Add New Employee
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <EmployeeEditForm/>
-        </Modal.Body>
-      </Modal>
-    );
-  }
-
 function AddNewAdminForm(props) {
     return (
         <Modal
@@ -138,7 +113,7 @@ function AddNewAdminForm(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Add New Employee
+            Add New Admin
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

@@ -37,6 +37,11 @@ const userSlice = createSlice(
             logOutUser: ((state) => {
                 state.userInfo = null;
             }),
+            resetLoginState: ((state) => {
+              state.status = "idle";
+              state.error = null;
+              state.userInfo = null;
+          }),
         },
 
         extraReducers:(builder) => {
@@ -47,12 +52,12 @@ const userSlice = createSlice(
                   })
                   .addCase(loginUser.fulfilled, (state, action) => {
                     console.log("Logged In");
-                    state.status = 'idle';
+                    state.status = 'success';
                     state.userInfo = action.payload;
                     state.error = null
                   })
                   .addCase(loginUser.rejected, (state,action) => {
-                    state.status = 'idle';
+                    state.status = 'error';
                     state.error = action.error.message;
                   });
             }
@@ -60,7 +65,7 @@ const userSlice = createSlice(
     }
 )
 
-export const {logOutUser, login} = userSlice.actions;
+export const {logOutUser, login, resetLoginState} = userSlice.actions;
 
 export const getUserInfo = (state) => state.user.userInfo;
 

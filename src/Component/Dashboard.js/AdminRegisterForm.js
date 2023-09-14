@@ -179,21 +179,6 @@ const AdminRegisterForm = () => {
         />
       </Form.Group>
 
-      <Form.Group controlId="role">
-        <Form.Label>Role</Form.Label>
-        <Form.Control
-          as="select"
-          name="role"
-          value={formData.role}
-          onChange={handleInputChange}
-          required
-        >
-          <option value="chef">Chef</option>
-          <option value="store_manager">Store Manager</option>
-          <option value="employee">Employee</option>
-        </Form.Control>
-      </Form.Group>
-
       <Form.Group controlId="superPassword">
         <Form.Label>Enter Your Password</Form.Label>
         <Form.Control
