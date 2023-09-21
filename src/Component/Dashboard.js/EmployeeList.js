@@ -58,7 +58,7 @@ const EmployeeList =(props)=>{
       dispatch(fetchAllUsers(props.access_token))
     },[reload])
     return(
-      <div>
+      <div style={{overflow:"scroll"}}>
       <EditEmployeeForm
         show={editShow}
         onHide={() => {

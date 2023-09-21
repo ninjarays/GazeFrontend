@@ -36,6 +36,8 @@ const userSlice = createSlice(
         reducers:{
             logOutUser: ((state) => {
                 state.userInfo = null;
+                state.status = "idle";
+                state.error = null;
             }),
             resetLoginState: ((state) => {
               state.status = "idle";

@@ -27,27 +27,26 @@ const Homepage= ()=>{
     // const dispatch = useDispatch();
     return (
       <div className="home-tabs">
+       {user ? 
+        <Row>
 
-      
-    
-       <Row>
-        <Col>
+        {["admin", "super_admin"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/ingredients');}}>
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
-          imgAlt="Card-one"
-          title="Procurment"
-          buttonText="Navigate.."
+          imgAlt="Raw Materials"
+          title="Ingredients"
+          buttonText="Navigate"
           />
-        </Col>
+        </Col>: <div></div>}
 
-        <Col>
+        {["admin", "super_admin"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/products');}}>
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
-          imgAlt="Inventory"
-          title="Procurment"
-          buttonText="Navigate.."
+          imgAlt="Productss"
+          title="Products"
+          buttonText="Navigate"
           />
-        </Col>
+        </Col>: <div></div>}
 
         <Col>
         <Card
@@ -102,8 +101,10 @@ const Homepage= ()=>{
           />
         </Col>
       </Row>
+      :
+      <div></div>}
       </div>
-  
+      
     )
 }
 

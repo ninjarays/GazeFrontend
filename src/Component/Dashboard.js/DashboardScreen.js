@@ -34,7 +34,7 @@ function DashboardScreen(props) {
         <div>
             <Row >
                 <Col>
-                    <Button variant="primary" onClick={() => {
+                    <Button variant="primary" style={{width:"150px"}} onClick={() => {
                       setModalShow(true);
                     }}>
                         Add Employee
@@ -111,8 +111,8 @@ function AddNewAdminForm(props) {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
+        <Modal.Header closeButton> 
+          <Modal.Title id="contained-modal-title-vcenter" >
             Add New Admin
           </Modal.Title>
         </Modal.Header>
