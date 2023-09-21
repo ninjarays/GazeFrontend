@@ -48,12 +48,12 @@ const Homepage= ()=>{
           />
         </Col>: <div></div>}
 
-        <Col>
+        <Col onClick={() => {navigate('/tracking');}}>
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
           imgAlt="Card-one"
-          title="Manufacture"
-          buttonText="Navigate.."
+          title="Tracking"
+          //buttonText="Navigate.."
           />
         </Col>
         <Col>

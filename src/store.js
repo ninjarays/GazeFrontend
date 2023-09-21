@@ -5,6 +5,7 @@ import superAdminReducer from "./features/superAdmin/superAdminSlice"
 import dashboardReducer from "./features/dashboard/dashboardSlice"
 import rawMaterialReducer from "./features/rawMaterial/rawMaterialSlice";
 import productReducer from "./features/products/productSlice";
+import trackingReducer from "./features/tracking/trackingSlice"
 
 export const store = configureStore(
     {
@@ -15,6 +16,7 @@ export const store = configureStore(
             dashboard:dashboardReducer,
             rawMaterials:rawMaterialReducer,
             products:productReducer,
+            tracking:trackingReducer,
         }
     }
 );

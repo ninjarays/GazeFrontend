@@ -6,6 +6,7 @@ import { Button, Col, Modal, Row, Tab, Tabs} from 'react-bootstrap';
 import EmployeeEditForm from './EmployeeEditForm';
 import AdminRegisterForm from './AdminRegisterForm';
 import EmployeeList from './EmployeeList';
+import TrackingList from './TrackingList';
 
 function DashboardScreen(props) {
     const user = useSelector((state) => state.user.userInfo);
@@ -74,6 +75,11 @@ function DashboardScreen(props) {
             </Tab>
             <Tab eventKey="orders" title="Orders">
                 <div>Orders</div>
+            </Tab>
+
+            <Tab eventKey="tracking" title="Tracking">
+            {!user? <div></div>:
+                <TrackingList access_token={user.access_token} />}
             </Tab>
             </Tabs>
         </div>

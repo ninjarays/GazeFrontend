@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import DashboardScreen from './Component/Dashboard.js/DashboardScreen';
 import RawMaterialsScreen from './Component/RawMaterials/RawMaterialsScreen';
 import ProductsScreen from './Component/Products/ProductsScreen';
+import TrackingScreen from './Component/Tracking/TrackingScreen';
 
 function App() {
   // const navigate = useNavigate();
@@ -26,6 +27,7 @@ function App() {
             <Route path='/login' Component={Login}/>
             {/* <Route Component={<AdminRoutes/>}> */}
             <Route path='/dashboard' element={<DashboardScreen/>}/>
+            <Route path='/tracking' element={<TrackingScreen/>}/>
             <Route path='/ingredients' element={<RawMaterialsScreen/>}/>
             <Route path='/products' element={<ProductsScreen/>}/>
 
