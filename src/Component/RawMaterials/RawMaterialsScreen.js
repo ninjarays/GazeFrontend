@@ -48,8 +48,8 @@ function RawMaterialsScreen(props) {
       }
 
     return (
-        <div>
-            <Row >
+        <div style={{ width: '90%', paddingTop:'50px'}}>
+            <Row  >
                 <Col>
                     <Button variant="primary" style={{width:"200px"}} onClick={() => {
                       setRawMaterialShow(true);

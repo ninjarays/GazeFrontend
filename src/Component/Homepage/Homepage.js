@@ -34,33 +34,35 @@ const Homepage= ()=>{
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
           imgAlt="Raw Materials"
-          title="Ingredients"
+          title="INGREDIENTS"
           buttonText="Navigate"
           />
         </Col>: <div></div>}
 
-        {["admin", "super_admin"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/products');}}>
+        {["admin", "super_admin", "chef"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/products');}}>
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
           imgAlt="Productss"
-          title="Products"
+          title="RECIPES"
           buttonText="Navigate"
           />
         </Col>: <div></div>}
 
-        <Col onClick={() => {navigate('/tracking');}}>
+        {["admin", "super_admin","store-manager"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/tracking');}}>
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
           imgAlt="Card-one"
-          title="Tracking"
+          title="TRACKING"
           //buttonText="Navigate.."
           />
-        </Col>
+        </Col>: <div></div>}
+
+        {["admin", "super_admin","store-manager"].includes(user.userCred.role) ?   <> 
         <Col>
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
           imgAlt="Card-one"
-          title="Procurment"
+          title="PURCHASE"
           buttonText="Navigate.."
           />
         </Col>
@@ -70,7 +72,7 @@ const Homepage= ()=>{
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
           imgAlt="Card-one"
-          title="Finance"
+          title="FINANCE"
           buttonText="Navigate.."
           />
         </Col>
@@ -79,7 +81,7 @@ const Homepage= ()=>{
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
           imgAlt="Card-one"
-          title="Operations"
+          title="PAYSLIP"
           buttonText="Navigate.."
           />
         </Col>
@@ -88,7 +90,7 @@ const Homepage= ()=>{
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
           imgAlt="Card-one"
-          title="Sales"
+          title="SALES"
           buttonText="Navigate.."
           />
         </Col>
@@ -96,10 +98,29 @@ const Homepage= ()=>{
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
           imgAlt="Card-one"
-          title="Procurment"
+          title="MARKETING"
           buttonText="Navigate.."
           />
         </Col>
+
+        <Col>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="OPERATIONS"
+          buttonText="Navigate.."
+          />
+        </Col>
+
+        <Col>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="PUBLIC RELATIONS"
+          buttonText="Navigate.."
+          />
+        </Col>
+        </>     : <div></div>}
       </Row>
       :
       <div></div>}

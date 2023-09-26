@@ -62,7 +62,7 @@ function Header() {
     // </Navbar>
 
     
-    <Navbar collapseOnSelect expand="lg" bg="light" variant="light" style={{paddingRight: "5%",paddingLeft:"5%", width:"100%"}}>
+    <Navbar collapseOnSelect expand="lg" bg="light" variant="light" style={{paddingRight: "5%",paddingLeft:"5%", width:"100%", zIndex:'0'}}>
     <Navbar.Brand onClick={navigateHomePage}>Gaze</Navbar.Brand>
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav">
@@ -78,11 +78,11 @@ function Header() {
         <Nav.Link onClick={navigateLoginPage}>Login</Nav.Link>
         }
       </Nav>
-      {/* <Nav>
+      <Nav>
         {!user ? <div></div>:
-        <Navbar.Text>Signed in as {user.userCred.role}</Navbar.Text>
+        <Navbar.Text>Signed in as {user?.userCred.role}</Navbar.Text>
         }
-      </Nav> */}
+      </Nav>
     </Navbar.Collapse>
   </Navbar>
     );

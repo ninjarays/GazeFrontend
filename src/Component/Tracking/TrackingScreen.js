@@ -63,7 +63,7 @@ const TrackingScreen = () => {
     
 
   return (
-    <div>
+    <div style={{ width: '90%', paddingTop:'50px'}}>
     <Row>
         <Col>
             <Button  variant="primary" onClick={() => {

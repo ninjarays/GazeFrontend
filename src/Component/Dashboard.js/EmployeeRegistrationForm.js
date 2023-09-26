@@ -33,7 +33,7 @@ const EmployeeRegisterForm = () => {
     phoneNumber: '',
     birthDate: '',
     joiningDate: '',
-    role: '',
+    role: 'chef',
   });
 
   const resetForm = () => {
@@ -45,7 +45,7 @@ const EmployeeRegisterForm = () => {
         phoneNumber: '',
         birthDate: '',
         joiningDate: '',
-        role: '',
+        role: 'chef',
       })
   }
 

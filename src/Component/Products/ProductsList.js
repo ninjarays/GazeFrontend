@@ -89,7 +89,7 @@ const ProductsList =(props)=>{
     }
 
     return(
-      <div >
+      <div style={{ width: '100%'}}>
       <EditProduct
         show={showForm}
         onHide={() => {
@@ -100,7 +100,7 @@ const ProductsList =(props)=>{
         <div>{!products? <div>Loading</div>:
            products.status==='loading' ?<div>loading</div>:
            products.status==='fail'? <div>Error</div> :
-          <div>
+          <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
              <Table striped bordered hover > 
       <thead>
         <tr>

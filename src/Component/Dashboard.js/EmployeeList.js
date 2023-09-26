@@ -58,7 +58,7 @@ const EmployeeList =(props)=>{
       dispatch(fetchAllUsers(props.access_token))
     },[reload])
     return(
-      <div style={{overflow:"scroll"}}>
+      <div style={{ width: '100%'}}>
       <EditEmployeeForm
         show={editShow}
         onHide={() => {
@@ -75,7 +75,7 @@ const EmployeeList =(props)=>{
         <div>{!employeeState? <div></div>:
            employeeState.status==='loading' ?<div>loading</div>:
            employeeState.status==='fail'? <div>Error</div> :
-          <div>
+          <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
              
              <Table striped bordered hover key={reload}> 
       <thead>
@@ -84,15 +84,17 @@ const EmployeeList =(props)=>{
           <th>Employee Name</th>
           <th>Email</th>
           <th>Role</th>
+          <th>Termination</th>
         </tr>
       </thead>
       <tbody>
           {employeeState.users.map((user) => (
         <tr  key={user._id}>
-            <td >{user._id}</td>
+            <td >{user.employeeId}</td>
             <td>{user.employeeName}</td>
             <td>{user.email}</td>
             <td>{user.role}</td>
+            <td>{user.terminationDate?.slice(0,10) || '-'}</td>
             <td>
               <Button variant="primary" onClick={() => {
                 setEditUser(user);

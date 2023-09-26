@@ -1,19 +1,22 @@
 .card-container {
     width: 15rem;
-    border-radius: 1rem;
+    border-radius: 20px;
     box-shadow: 0px 10px 8px #999;
     display: flex;
     flex-direction: column;
-    margin: 0.5rem;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
     background-color: white;
     height: fit-content;
   }
   
   .card-img {
+    border-radius: 20px;
     border: 5;
     width: 100%;
     height: auto;
-    border-radius: 1rem 1rem 0 0;
   }
   
   .card-title {

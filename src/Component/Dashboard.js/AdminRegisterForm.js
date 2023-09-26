@@ -33,7 +33,7 @@ const AdminRegisterForm = () => {
     phoneNumber: '',
     birthDate: '',
     joiningDate: '',
-    role: '',
+    role: 'admin',
     superPassword:''
   });
 
@@ -46,7 +46,7 @@ const AdminRegisterForm = () => {
         phoneNumber: '',
         birthDate: '',
         joiningDate: '',
-        role: '',
+        role: 'admin',
         superPassword:''
       })
   }
@@ -59,7 +59,8 @@ const AdminRegisterForm = () => {
         console.log("loading off");
         setTimeout(() => {
             dispatch(refreshLoading());
-        }, 4500)
+            navigateHome();
+        }, 1000)
     }
     else if(status.registerAdmin === "error"){
         setShow(true);
@@ -69,7 +70,7 @@ const AdminRegisterForm = () => {
         setTimeout(() => {
             console.log("dispaching");
             dispatch(refreshLoading());
-        }, 4500)
+        }, 1000)
     }
     else if(status.registerAdmin === "loading"){
         console.log("loading is on");
@@ -91,7 +92,8 @@ const AdminRegisterForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     formData["jwt"] = user.access_token;
-    formData["email"] = user.userCred.email;
+    formData["superEmail"] = user.userCred.email;
+    formData["store"] = 1;
     dispatch(registerNewAdmin(formData));
   };
 

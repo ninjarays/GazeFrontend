@@ -43,7 +43,7 @@ const EmployeeEditForm = (props) => {
         phoneNumber: '',
         birthDate: '',
         joiningDate: '',
-        role: '',
+        role: 'chef',
       })
   }
 
@@ -89,17 +89,6 @@ const EmployeeEditForm = (props) => {
     dispatch(editUser(formData));
   };
   
-
-  const deleteUser = async () => {
-    dispatch(terminateUserLoading());
-    await axios.put('/api/admin/delete_user', {employeeId:props.data.employeeId},{
-      headers:{"Authorization":`Bearer ${user.access_token}`},
-  }).then((response) => {
-      dispatch(terminateUserSuccess(response.data));
-  }).catch((err) => {
-      dispatch(terminateUserError(err.response.data.message));
-  })
-  };
 
   return (
     <>
@@ -177,10 +166,6 @@ const EmployeeEditForm = (props) => {
           <option value="employee">Employee</option>
         </Form.Control>
       </Form.Group>
-
-      <Button onClick={() => { deleteUser()}}>
-        Terminate User
-      </Button>
 
       <Button variant="primary" type="submit">
         Submit

@@ -88,7 +88,7 @@ const RawMaterialList =(props)=>{
     }
 
     return(
-      <div >
+      <div style={{ width: '100%'}}>
       <EditMaterialForm
         show={showForm}
         onHide={() => {
@@ -101,9 +101,9 @@ const RawMaterialList =(props)=>{
         <div>{!materials? <div>Loading</div>:
            materials.status==='loading' ?<div>loading</div>:
            materials.status==='fail'? <div>Error</div> :
-          <div>
-
-             <Table striped bordered hover > 
+          
+            <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+             <Table striped bordered hover> 
       <thead>
         <tr>
           <th>English Name</th>
@@ -139,7 +139,8 @@ const RawMaterialList =(props)=>{
       </tbody>
 
     </Table>
-          </div>
+    </div>
+          
         }</div>
       </div>
     )

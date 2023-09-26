@@ -32,11 +32,11 @@ const TrackingList =(props)=>{
          
     // },[trackingState.status])
     return(
-        <>
+        <div style={{ width: '100%'}}>
         {tracking.status==='idle'? <div></div>:
         tracking.status==='Loading'?<div>Loading</div>:
         tracking.status==="Failure"? <div >{tracking.error}</div>:
-        <div>
+        <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
             <Table striped bordered hover key={reload}>
                 <thead>
                    <tr>
@@ -60,7 +60,7 @@ const TrackingList =(props)=>{
                 </tbody>
             </Table>    
         </div>}
-        </>
+        </div>
     )
 }
 

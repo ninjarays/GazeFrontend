@@ -23,7 +23,7 @@ function ProductsScreen() {
             navigateHome();
             return () => {};
         }
-        else if( !["super_admin", "admin"].includes(user.userCred.role)){
+        else if( !["super_admin", "admin", "chef"].includes(user.userCred.role)){
             navigateHome();
             return () => {};
         }
@@ -53,7 +53,7 @@ function ProductsScreen() {
       }
 
     return (
-        <div>
+        <div style={{ width: '90%', paddingTop:'50px'}}>
             <Row >
                 <Col>
                     <Button variant="primary" style={{width:"200px"}} onClick={() => {

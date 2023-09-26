@@ -25,7 +25,7 @@ export const registerNewAdmin = createAsyncThunk(
     'user/registerNewAdmin',
     async (userInfo) => {
         try {
-            const response = await axios.post('http://localhost:5001/api/admin/edit/user', userInfo, {
+            const response = await axios.post('http://localhost:5001/api/super_admin/register_admin', userInfo, {
                 headers:{"Authorization":`Bearer ${userInfo["jwt"]}`},
             });
             return response.data
