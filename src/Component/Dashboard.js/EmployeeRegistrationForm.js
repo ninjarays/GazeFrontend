@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Select from 'react-select';
 import { refreshLoading, registerNewUser } from '../../features/admin/adminSlice';
 
 const EmployeeRegisterForm = () => {
     const user = useSelector((state) => state.user.userInfo);
     const status = useSelector((state) => state.admin);
-    const [show, setShow] = useState(false)
-    const [variant, setVariant] = useState("light")
+    const [show, setShow] = useState(false);
+    const [variant, setVariant] = useState("light");
+    const storeOptions = status.storeIds.ids.map((i) => {return {label:`${i.storeId}`,value:i.storeId}});
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -33,6 +35,7 @@ const EmployeeRegisterForm = () => {
     phoneNumber: '',
     birthDate: '',
     joiningDate: '',
+    storeId:null,
     role: 'chef',
   });
 
@@ -45,6 +48,7 @@ const EmployeeRegisterForm = () => {
         phoneNumber: '',
         birthDate: '',
         joiningDate: '',
+        storeId:null,
         role: 'chef',
       })
   }
@@ -83,6 +87,13 @@ const EmployeeRegisterForm = () => {
     setFormData({
       ...formData,
       [name]: value,
+    });
+  };
+
+  const handleStoreSelect = (selectedOption) => {
+    setFormData({
+      ...formData,
+      storeId: selectedOption,
     });
   };
 
@@ -154,6 +165,18 @@ const EmployeeRegisterForm = () => {
           onChange={handleInputChange}
           required
         />
+      </Form.Group>
+
+      <Form.Group controlId="storeId">
+        <Form.Label>Store Id</Form.Label>
+        <Select
+            id="storeId"
+            name="storeId"
+            value={formData.storeId}
+            onChange={handleStoreSelect}
+            options={storeOptions}
+            placeholder="Select a Store"
+          />
       </Form.Group>
 
       <Form.Group controlId="birthDate">

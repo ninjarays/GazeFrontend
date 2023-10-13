@@ -6,6 +6,7 @@ const initialState = {
     registerUser:"idle",
     changePassword:{status:"idle", error:null},
     terminateUser:{status:"idle", error:null},
+    storeIds:{ids:null, status:"idle", error:null},
     error: null
 }
 
@@ -22,6 +23,21 @@ export const registerNewUser = createAsyncThunk(
             throw error
           }
     }
+)
+
+export const getStoreIds = createAsyncThunk(
+  'user/getStoreIds',
+  async (userInfo) => {
+      try {
+          const response = await axios.get('/api/stores/store_ids', {
+              headers:{"Authorization":`Bearer ${userInfo}`},
+          });
+          return response.data
+        } catch (error) {
+          error["message"] = error.response.data.message;
+          throw error
+        }
+  }
 )
 
 export const editUser = createAsyncThunk(
@@ -64,14 +80,14 @@ const adminSlice = createSlice(
           })),
           terminateUserLoading:(((state) => {
             state.editUser = "loading";
-        })),
+          })),
           terminateUserSuccess:(((state) => {
             state.editUser = "added";
-        })),
+          })),
           terminateUserError:(((state, action) => {
             state.editUser = "error";
             state.editUser = action.payload;
-        })),
+          })),
         },
         extraReducers:(builder) => {
                 builder
@@ -96,6 +112,17 @@ const adminSlice = createSlice(
                   .addCase(editUser.rejected, (state,action) => {
                     state.editUser = 'error';
                     state.changePassword.error = action.error.message;
+                  })
+                  .addCase(getStoreIds.pending, (state) => {
+                    state.storeIds.status = 'loading';
+                  })
+                  .addCase(getStoreIds.fulfilled, (state,action) => {
+                    state.storeIds.status = 'added';
+                    state.storeIds.ids = action.payload;
+                  })
+                  .addCase(getStoreIds.rejected, (state,action) => {
+                    state.storeIds.status = 'error';
+                    state.storeIds.error = action.error.message;
                   });
             }
         

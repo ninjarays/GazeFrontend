@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import {fetchAllUsers} from '../../features/dashboard/dashboardSlice';
-import { Button, Col, Form, Modal, Row, Table } from 'react-bootstrap';
+import { Button, Modal, Table } from 'react-bootstrap';
 import EmployeeEditForm from './EmployeeEditForm';
 import ChangePasswordForm from './ChangePasswordForm';
 
@@ -54,9 +54,9 @@ const EmployeeList =(props)=>{
     }
 
     useEffect(()=>{
-      console.log("loading")
       dispatch(fetchAllUsers(props.access_token))
     },[reload])
+
     return(
       <div style={{ width: '100%'}}>
       <EditEmployeeForm

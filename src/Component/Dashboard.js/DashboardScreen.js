@@ -7,6 +7,7 @@ import EmployeeEditForm from './EmployeeEditForm';
 import AdminRegisterForm from './AdminRegisterForm';
 import EmployeeList from './EmployeeList';
 import TrackingList from './TrackingList';
+import { getStoreIds } from '../../features/admin/adminSlice';
 
 function DashboardScreen(props) {
     const user = useSelector((state) => state.user.userInfo);
@@ -27,6 +28,10 @@ function DashboardScreen(props) {
         }
         else if( !["super_admin", "admin"].includes(user.userCred.role)){
             navigateHome();
+        }
+        else {
+          console.log("get ids");
+          dispatch(getStoreIds(user.access_token));
         }
     },[user])
 

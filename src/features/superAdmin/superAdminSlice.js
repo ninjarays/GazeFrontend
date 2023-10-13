@@ -10,7 +10,7 @@ export const registerNewUser = createAsyncThunk(
     'user/registerNewUser',
     async (userInfo) => {
         try {
-            const response = await axios.post('http://localhost:5001/api/super_admin/register_admin', userInfo, {
+            const response = await axios.post('/api/super_admin/register_admin', userInfo, {
                 headers:{"Authorization":`Bearer ${userInfo["jwt"]}`},
             });
             return response.data
@@ -25,7 +25,7 @@ export const registerNewAdmin = createAsyncThunk(
     'user/registerNewAdmin',
     async (userInfo) => {
         try {
-            const response = await axios.post('http://localhost:5001/api/super_admin/register_admin', userInfo, {
+            const response = await axios.post('/api/super_admin/register_admin', userInfo, {
                 headers:{"Authorization":`Bearer ${userInfo["jwt"]}`},
             });
             return response.data
@@ -52,6 +52,7 @@ const superAdminSlice = createSlice(
                     state.registerAdmin = 'loading';
                   })
                   .addCase(registerNewAdmin.fulfilled, (state) => {
+                    console.log("fulfilled");
                     state.registerAdmin = 'added';
                     state.error = null
                   })

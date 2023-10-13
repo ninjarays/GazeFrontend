@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { editUser, refreshLoading, terminateUserError, terminateUserLoading, terminateUserSuccess } from '../../features/admin/adminSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../config/axios';
 
 const EmployeeEditForm = (props) => {
   const user = useSelector((state) => state.user.userInfo);
     const status = useSelector((state) => state.admin);
-    const [show, setShow] = useState(false)
-    const [variant, setVariant] = useState("light")
+    const [show, setShow] = useState(false);
+    const [variant, setVariant] = useState("light");
+    const storeOptions = status.storeIds.ids.map((i) => {return {label:`${i.storeId}`,value:i.storeId}});
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -33,6 +35,7 @@ const EmployeeEditForm = (props) => {
     birthDate: props.data.birthDate.slice(0,10),
     joiningDate: props.data.joiningDate.slice(0,10),
     role: props.data.role,
+    storeId: props.data.storeId,
     employeeId:props.data.employeeId
   });
 
@@ -43,6 +46,7 @@ const EmployeeEditForm = (props) => {
         phoneNumber: '',
         birthDate: '',
         joiningDate: '',
+        storeId: null,
         role: 'chef',
       })
   }
@@ -80,6 +84,13 @@ const EmployeeEditForm = (props) => {
     setFormData({
       ...formData,
       [name]: value,
+    });
+  };
+
+  const handleStoreSelect = (selectedOption) => {
+    setFormData({
+      ...formData,
+      storeId: selectedOption,
     });
   };
 
@@ -128,6 +139,18 @@ const EmployeeEditForm = (props) => {
           onChange={handleInputChange}
           required
         />
+      </Form.Group>
+
+      <Form.Group controlId="storeId">
+        <Form.Label>Store Id</Form.Label>
+        <Select
+            id="storeId"
+            name="storeId"
+            value={formData.storeId}
+            onChange={handleStoreSelect}
+            options={storeOptions}
+            placeholder="Select a Store"
+          />
       </Form.Group>
 
       <Form.Group controlId="birthDate">

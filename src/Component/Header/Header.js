@@ -80,7 +80,7 @@ function Header() {
       </Nav>
       <Nav>
         {!user ? <div></div>:
-        <Navbar.Text>Signed in as {user?.userCred.role}</Navbar.Text>
+        <Navbar.Text>Signed in as {user?.userCred.role ?? ""}</Navbar.Text>
         }
       </Nav>
     </Navbar.Collapse>

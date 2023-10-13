@@ -3,24 +3,18 @@ import { Form, Button, Alert, Col, Row, Container } from 'react-bootstrap';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from '../../config/axios';
-import { useNavigate } from 'react-router-dom';
 import { createProductError, createProductLoading, createProductReset, createProductSuccess } from '../../features/products/productSlice';
 
 const CreateProductForm = (props) => {
-    const options = [{label:"i11",value:"i1"}]
     const dispatch = useDispatch();
     const status = useSelector((state) => state.products.createProduct);
-    const ingredientOptions = props.ingredientOptions.map((i) => {return {label:`${i.englishName}/${i.hindiName}`,value:i.englishName}})
+    const ingredientOptions = props.ingredientOptions.map((i) => {return {label:`${i.englishName}/${i.hindiName}`,value:i.englishName}});
     const [show, setShow] = useState(false);
     const [name, setName] = useState("");
     const [variant, setVariant] = useState("light");
     const [ingredientData, setIngredientData] = useState([
       { name: null, percentage: 0 },
     ]);
-
-    const resetForm = () => {
-      setIngredientData([]);
-    }
   
     const handleAddIngredient = () => {
       setIngredientData([...ingredientData, { name: '', percentage: 0 }]);
@@ -121,9 +115,7 @@ const CreateProductForm = (props) => {
                 <Select
                   options={ingredientOptions}
                   value={ingredient.ingredient}
-                  onChange={(selectedOption) =>
-                    handleIngredientChange(index, selectedOption)
-                  }
+                  onChange={(selectedOption) => handleIngredientChange(index, selectedOption)}
                   isSearchable={true}
                   placeholder="Select an ingredient..."
                 />

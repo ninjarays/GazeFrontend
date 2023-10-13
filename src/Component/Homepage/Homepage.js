@@ -57,6 +57,24 @@ const Homepage= ()=>{
           />
         </Col>: <div></div>}
 
+        {["admin", "super_admin","store-manager"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/orders');}}>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="ORDERS"
+          //buttonText="Navigate.."
+          />
+        </Col>: <div></div>}
+
+        {["admin", "super_admin","store-manager"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/barcode');}}>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="BARCODE"
+          //buttonText="Navigate.."
+          />
+        </Col>: <div></div>}
+
         {["admin", "super_admin","store-manager"].includes(user.userCred.role) ?   <> 
         <Col>
         <Card

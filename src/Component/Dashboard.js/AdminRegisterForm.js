@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Select from 'react-select';
 import { refreshLoading, registerNewAdmin } from '../../features/superAdmin/superAdminSlice';
 
 const AdminRegisterForm = () => {
     const user = useSelector((state) => state.user.userInfo);
     const status = useSelector((state) => state.superAdmin);
-    const [show, setShow] = useState(false)
-    const [variant, setVariant] = useState("light")
+    const admin = useSelector((state) => state.admin);
+    const [show, setShow] = useState(false);
+    const [variant, setVariant] = useState("light");
+    const storeOptions = admin.storeIds.ids.map((i) => {return {label:`${i.storeId}`,value:i.storeId}});
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -31,6 +34,7 @@ const AdminRegisterForm = () => {
     password: '',
     confirmPassword:"",
     phoneNumber: '',
+    storeId:null,
     birthDate: '',
     joiningDate: '',
     role: 'admin',
@@ -44,6 +48,7 @@ const AdminRegisterForm = () => {
         password: '',
         confirmPassword:"",
         phoneNumber: '',
+        storeId:null,
         birthDate: '',
         joiningDate: '',
         role: 'admin',
@@ -55,8 +60,8 @@ const AdminRegisterForm = () => {
     if(status.registerAdmin === "added"){
         setShow(true);
         setVariant("success");
-        resetForm();
-        console.log("loading off");
+        // resetForm();
+        console.log("loading off added",show, variant);
         setTimeout(() => {
             dispatch(refreshLoading());
             navigateHome();
@@ -65,8 +70,8 @@ const AdminRegisterForm = () => {
     else if(status.registerAdmin === "error"){
         setShow(true);
         setVariant("danger")
-        resetForm();
-        console.log("loading off");
+        // resetForm();
+        console.log("loading off error", show, variant);
         setTimeout(() => {
             console.log("dispaching");
             dispatch(refreshLoading());
@@ -79,13 +84,20 @@ const AdminRegisterForm = () => {
         setShow(false)
     }
 
-},[status.registerAdminr])
+},[status.registerAdmin])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
+    });
+  };
+
+  const handleStoreSelect = (selectedOption) => {
+    setFormData({
+      ...formData,
+      storeId: selectedOption,
     });
   };
 
@@ -157,6 +169,18 @@ const AdminRegisterForm = () => {
           onChange={handleInputChange}
           required
         />
+      </Form.Group>
+
+      <Form.Group controlId="storeId">
+        <Form.Label>Store Id</Form.Label>
+        <Select
+            id="storeId"
+            name="storeId"
+            value={formData.storeId}
+            onChange={handleStoreSelect}
+            options={storeOptions}
+            placeholder="Select a Store"
+          />
       </Form.Group>
 
       <Form.Group controlId="birthDate">

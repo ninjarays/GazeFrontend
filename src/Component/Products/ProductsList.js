@@ -113,7 +113,7 @@ const ProductsList =(props)=>{
       </thead>
       <tbody key={reload}>
         
-          {!products.products? <td></td> : 
+          {!products.products? <tr></tr> : 
           products.products.map((data) => (
         <tr  key={data._id}>
             <td >{data.name}</td>

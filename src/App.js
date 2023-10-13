@@ -4,12 +4,13 @@ import Login from "./Component/login/login"
 import {Routes, Route, BrowserRouter } from "react-router-dom"
 import Header from './Component/Header/Header';
 import Footer from './Component/Footer/Footer';
-import AdminRoutes from './Component/Routes/AdminRoutes';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DashboardScreen from './Component/Dashboard.js/DashboardScreen';
 import RawMaterialsScreen from './Component/RawMaterials/RawMaterialsScreen';
 import ProductsScreen from './Component/Products/ProductsScreen';
 import TrackingScreen from './Component/Tracking/TrackingScreen';
+import OrderScreen from './Component/Orders/OrderScreen';
+import BarcodeGenratorScreen from './Component/Barcode/BarcodeGenratorScreen';
 
 function App() {
   // const navigate = useNavigate();
@@ -30,7 +31,8 @@ function App() {
             <Route path='/tracking' element={<TrackingScreen/>}/>
             <Route path='/ingredients' element={<RawMaterialsScreen/>}/>
             <Route path='/products' element={<ProductsScreen/>}/>
-
+            <Route path='/orders' element={<OrderScreen/>}/>
+            <Route path='/barcode' element={<BarcodeGenratorScreen/>}/>
             {/* </Route>  */}
             {/* <Route path='/register' Component={Signup}/>
             {/* <Route path='/register' Component={EmployeeRegisterForm}/> */}
