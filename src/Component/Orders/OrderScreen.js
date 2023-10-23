@@ -163,7 +163,7 @@ function OrderScreen(props) {
             <Tab eventKey="pending" title="Pending Orders" >
                 {!user? <div></div>:
                 <PendingOrderList 
-                orders={storeOrders.orders.filter((o) => o.status === 0 || o.status === 2 )} 
+                orders={storeOrders.orders.filter((o) => o.status < 1 )} 
                 setReload={incrementReload} 
                 token={user?.access_token}
                 role={user?.userCred?.role ?? ""} />}
