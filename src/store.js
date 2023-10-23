@@ -7,6 +7,8 @@ import rawMaterialReducer from "./features/rawMaterial/rawMaterialSlice";
 import productReducer from "./features/products/productSlice";
 import trackingReducer from "./features/tracking/trackingSlice"
 import orderReducer from "./features/orders/orderSlice";
+import budgetReducer from "./features/budget/budgetSlice";
+import salesReducer from "./features/sales/salesSlice";
 
 export const store = configureStore(
     {
@@ -19,6 +21,8 @@ export const store = configureStore(
             products:productReducer,
             tracking:trackingReducer,
             orders:orderReducer,
+            budget:budgetReducer,
+            sales:salesReducer,
         }
     }
 );

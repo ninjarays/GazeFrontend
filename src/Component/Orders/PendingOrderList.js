@@ -234,11 +234,11 @@ function PendingOrderList(props) {
             }}
         />
         
-        <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+        {  <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>Order Id</th>
                         <th>Requested By</th>
                         <th>Products</th>
                         <th>Date</th>
@@ -315,7 +315,7 @@ function PendingOrderList(props) {
                 </tbody>
 
             </Table>
-        </div>
+        </div>}
         </div>
     );
 }

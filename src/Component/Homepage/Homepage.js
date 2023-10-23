@@ -48,7 +48,7 @@ const Homepage= ()=>{
           />
         </Col>: <div></div>}
 
-        {["admin", "super_admin","store-manager"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/tracking');}}>
+        {["admin", "super_admin","store_manager"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/tracking');}}>
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
           imgAlt="Card-one"
@@ -57,7 +57,7 @@ const Homepage= ()=>{
           />
         </Col>: <div></div>}
 
-        {["admin", "super_admin","store-manager"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/orders');}}>
+        {["admin", "super_admin","store_manager"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/orders');}}>
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
           imgAlt="Card-one"
@@ -66,7 +66,25 @@ const Homepage= ()=>{
           />
         </Col>: <div></div>}
 
-        {["admin", "super_admin","store-manager"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/barcode');}}>
+        {["admin", "super_admin","store_manager"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/budget');}}>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="BUDGET"
+          //buttonText="Navigate.."
+          />
+        </Col>: <div></div>}
+
+        {["admin", "super_admin","store_manager"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/sales');}}>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="SALES"
+          //buttonText="Navigate.."
+          />
+        </Col>: <div></div>}
+
+        {["admin", "super_admin","store_manager"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/barcode');}}>
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
           imgAlt="Card-one"
@@ -75,7 +93,7 @@ const Homepage= ()=>{
           />
         </Col>: <div></div>}
 
-        {["admin", "super_admin","store-manager"].includes(user.userCred.role) ?   <> 
+        {["admin", "super_admin","store_manager"].includes(user.userCred.role) ?   <> 
         <Col>
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
@@ -104,14 +122,6 @@ const Homepage= ()=>{
           />
         </Col>
 
-        <Col>
-        <Card
-          imgSrc="https://picsum.photos/id/193/300/200"
-          imgAlt="Card-one"
-          title="SALES"
-          buttonText="Navigate.."
-          />
-        </Col>
         <Col>
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"
