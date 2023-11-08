@@ -65,13 +65,15 @@ const BudgetYears = ( props ) => {
             {yearData.year}
           </Button>
           <Collapse in={openYear === yearData.year}>
-            <div id={`year-${yearData.year}`}>
+            <div id={`year-${yearData.year}`} style={{ width: '100%', height: '600px', overflow: 'auto' }}>
               <Table>
                 <thead>
                     <tr>
                         <th>Month</th>
                         <th>Budget</th>
                         <th>Update Budget</th>
+                        <th style={{textAlign:"center"}}>Last Update</th>
+                        <th style={{textAlign:"center"}}>Last Update By</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,6 +85,8 @@ const BudgetYears = ( props ) => {
                         setSelectedMonth(month);
                         setSetBudgetShow(true);
                     }}>Update Budget</Button></td>
+                    <td style={{textAlign:"center"}}>{month.employeeId ?? "-"}</td>
+                    <td style={{textAlign:"center"}}>{month.lastUpdate.slice(0,10) ?? "-"}</td>
                   </tr>
                 ))}
                 </tbody>

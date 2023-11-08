@@ -15,6 +15,13 @@ const EditOrderForm = (props) => {
     const [variant, setVariant] = useState("light");
     const [productsData, setProductsData] = useState(props.products);
 
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth() + 1; // Adding 1 because months are zero-based
+
+    const [selectedMonth, setSelectedMonth] = useState(props.consumptionDate.month);
+    const [selectedYear, setSelectedYear] = useState(props.consumptionDate.year);
+
     const handleAddProduct = () => {
       setProductsData([...productsData, { name: '', quantity: 0 }]);
     };
@@ -35,6 +42,14 @@ const EditOrderForm = (props) => {
       const updatedProducts = [...productsData];
       updatedProducts[index].quantity = quantity;
       setProductsData(updatedProducts);
+    };
+
+    const handleMonthChange = (e) => {
+      setSelectedMonth(parseInt(e.target.value, 10));
+    };
+  
+    const handleYearChange = (e) => {
+      setSelectedYear(parseInt(e.target.value, 10));
     };
 
   useEffect(() => {
@@ -68,7 +83,9 @@ const EditOrderForm = (props) => {
 
     const data = {
       products:productsData,
-      _id:props._id
+      _id:props._id,
+      year:selectedYear,
+      month:months[selectedMonth-1]
     }
     dispatch(editOrderLoading());
     await axios.put('/api/orders/edit_order', data, {
@@ -79,7 +96,15 @@ const EditOrderForm = (props) => {
         dispatch(editOrderError(err.response.data.message))
     })
   };
-  
+
+  const months = [
+    'January', 'February', 'March', 'April',
+    'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December'
+  ];
+
+  const availableYears = Array.from({ length: 6 }, (_, i) => currentYear + i);
+
 
   return (
     <>
@@ -89,8 +114,34 @@ const EditOrderForm = (props) => {
       </Alert> : <div></div>}
       <Container>
       <Form onSubmit={handleSubmit}>
+      <Row>
+            <Col>
+              <Form.Group>
+                <Form.Label>Select Month</Form.Label>
+                <Form.Control as="select" value={selectedMonth} onChange={handleMonthChange}>
+                  {months.map((month, index) => (
+                    <option key={index} value={index + 1}>
+                      {month}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group>
+                <Form.Label>Select Year</Form.Label>
+                <Form.Control as="select" value={selectedYear} onChange={handleYearChange}>
+                  {availableYears.map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+            </Col>
+        </Row>
         {productsData.map((product, index) => (
-          <Row key={index}>
+          <Row key={`pdata${index}`}>
             <Col>
               <Form.Group controlId={`product${index}`}>
               <Form.Label>Product</Form.Label>

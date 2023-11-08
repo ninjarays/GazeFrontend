@@ -9,6 +9,9 @@ import PendingOrderList from './PendingOrderList';
 import PlaceOrderForm from './PlaceOrderForm';
 import SelectStore from './SelectStore';
 import { getStoreIds } from '../../features/admin/adminSlice';
+import BudgetApprovalList from './BudgetApprovalList';
+import InvoicePendingOrderList from './InvoicePendingOrderList';
+import CompletedOrderList from './CompletedOrderList';
 
 function OrderScreen(props) {
     const user = useSelector((state) => state.user.userInfo);
@@ -160,7 +163,7 @@ function OrderScreen(props) {
             id="orders_tab"
             activeKey={key}
             onSelect={(k) => setKey(k)}>
-            <Tab eventKey="pending" title="Pending Orders" >
+            <Tab eventKey="pending" title="Quantity Approval" >
                 {!user? <div></div>:
                 <PendingOrderList 
                 orders={storeOrders.orders.filter((o) => o.status < 1 )} 
@@ -169,9 +172,21 @@ function OrderScreen(props) {
                 role={user?.userCred?.role ?? ""} />}
             </Tab>
 
-            <Tab eventKey="approved" title="Approved Orders" >
+            <Tab eventKey="approved" title="Upload Quote" >
                 {!user? <div></div>:
-                <ApprovedOrderList orders={storeOrders.orders.filter((o) => o.status === 1)}/>}
+                <ApprovedOrderList orders={storeOrders.orders.filter((o) => o.status === 1)} reload={incrementReload} />}
+            </Tab>
+            <Tab eventKey="budgetApproval" title="Budget Approval" >
+                {!user? <div></div>:
+                <BudgetApprovalList reload={incrementReload} />}
+            </Tab>
+            <Tab eventKey="waitingForInvoice" title="Waiting For Invoice" >
+                {!user? <div></div>:
+                <InvoicePendingOrderList reload={incrementReload} />}
+            </Tab>
+            <Tab eventKey="orderHistory" title="Order History"  >
+                {!user? <div></div>:
+                <CompletedOrderList reloadValue={reload}/>}
             </Tab>
         </Tabs>
         </div>

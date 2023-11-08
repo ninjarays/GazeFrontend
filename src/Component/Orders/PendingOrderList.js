@@ -110,7 +110,7 @@ function PendingOrderList(props) {
                             <table>
                                 <tbody >
                                     {product.materials.map((material) => (
-                                        <tr>
+                                        <tr key={material.name}>
                                             <td>{material.name}</td>
                                             <td>{material.weight}kg</td>
                                         </tr>
@@ -189,6 +189,7 @@ function PendingOrderList(props) {
               token={token} 
               closeForm={setViewEditOrder}  
               reloadList={reloadList}
+              consumptionDate={selectedOrder?.consumptionDate}
               products={selectedOrder?.products.map((i) => {return {name:i.name, quantity:parseInt(i.quantity) }}) }
               />
             </Modal.Body>
@@ -241,7 +242,9 @@ function PendingOrderList(props) {
                         <th>Order Id</th>
                         <th>Requested By</th>
                         <th>Products</th>
-                        <th>Date</th>
+                        <th>Target For Consumption Month</th>
+                        <th>Request Date</th>
+                        <th>Consumption Date</th>
                         <th>Materials</th>
                         <th>Edit</th>
                         {["admin","super_admin"].includes(props.role) && <th>Approve</th>}
@@ -252,8 +255,8 @@ function PendingOrderList(props) {
                 <tbody>
                 {props.orders.map((order) => (
                     <tr key={order._id} style={{backgroundColor: order.status === 0? 'white':'#ffc9c9'}}>
-                        <td>{order._id}</td>
-                        <td>{order.employeeId}</td>
+                        <td>{order.orderId ?? "-"}</td>
+                        <td>{order.employeeName}</td>
                         <td>
                             <table>
                                 <tbody >
@@ -267,7 +270,21 @@ function PendingOrderList(props) {
                                 </tbody>
                             </table>
                         </td>
-                        <td>{order.date.slice(0,10)}</td>
+                        <td>
+                            {!order.salesTarget ? <p>-</p>:<table>
+                                <tbody >
+                                    {order.salesTarget.map((product) => (
+                                        <tr key={product._key}>
+                                            <td>{product.name}</td>
+                                            <td>{product.quantity}kg</td>
+                                        </tr>
+                                        
+                                    ))}
+                                </tbody>
+                            </table>}
+                        </td>
+                        <td>{order.requestDate.slice(0,10)}</td>
+                        <td>{`${order.consumptionDate.month} ${order.consumptionDate.year}`}</td>
                         <td>
                             <Button onClick={() => {
                                 setSelectedOrder(order);
