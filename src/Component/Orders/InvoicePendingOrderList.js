@@ -88,7 +88,7 @@ function InvoicePendingOrderList({reload}) {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <UploadInvoiceImage reload={reload}/>
+                <UploadInvoiceImage reload={reload} _id={viewOrder?._id} closeForm={setViewUploadInvoice}/>
             </Modal.Body>
           </Modal>
         );
@@ -139,7 +139,7 @@ function InvoicePendingOrderList({reload}) {
                         <th>Request Date</th>
                         <th>Approval Date</th>
                         <th>Order Details</th>
-                        <th>Upload Invoice</th>
+                        <th>Invoice Number</th>
                         <th>Complete Order</th>
                     </tr>
                 </thead>
@@ -175,7 +175,7 @@ function InvoicePendingOrderList({reload}) {
                             <Button onClick={() => {
                                 setViewOrder(order);
                                 setViewUploadInvoice(true);
-                            }}> Upload Invoice</Button>
+                            }}>Invoice Number</Button>
                         </td>
                         <td>
                             <Button onClick={() => {

@@ -117,11 +117,23 @@ const ProductsList =(props)=>{
           products.products.map((data) => (
         <tr  key={data._id}>
             <td >{data.name}</td>
-            <td ><ListGroup>{data.recipe.map((i) => (
+            <td>
+              <Table>
+                <tbody >
+                  {data.recipe.map((i) => (
+                    <tr key={`${data.name}${i.name}`}>
+                      <td>{i.name}</td>
+                      <td>{i.percentage}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </td>
+            {/* <td ><ListGroup>{data.recipe.map((i) => (
               <ListGroup.Item>
                {i.name}  {i.percentage}%
               </ListGroup.Item>
-            ))}</ListGroup></td>
+            ))}</ListGroup></td> */}
             <td>{data.chef}</td>
             <td>
               <Button variant="primary" onClick={() => {

@@ -10,8 +10,9 @@ const CompletedOrderList = ({ reloadValue }) => {
     const token = useSelector((state) => state.user.userInfo.access_token);
     const role = useSelector((state) => state.user.userInfo.userCred.role);
     const [currentPage, setCurrentPage] = useState(1);
-    const [currentItems,setCurrentItems ]= useState([]);
-    const [totalPages,setTotalPages] = useState(0);
+    const [activeValues, setActiveValues] = useState({currentItems:[], totalPages:0})
+    // const [currentItems,setCurrentItems ]= useState([]);
+    // const [totalPages,setTotalPages] = useState(0);
     const [show, setShow] = useState(false);
     const [variant, setVariant] = useState("light");
     const [status, setStatus] = useState({status:"idle", error:null})
@@ -20,12 +21,14 @@ const CompletedOrderList = ({ reloadValue }) => {
     const [viewOrder, setViewOrder] = useState(null);
 
     useEffect(()=>{
+        console.log("hello");
         getCompletedOrders();
     },[currentPage,reloadValue]);
 
     useEffect(()=>{
+        console.log("hi");
         handlePagesChange();
-    },[totalPages]);
+    },[activeValues]);
 
     useEffect(() => {
         if(status.status === "success"){
@@ -48,13 +51,21 @@ const CompletedOrderList = ({ reloadValue }) => {
     },[status.status])
 
     const getCompletedOrders =  async () => {
+        console.log("getting completed order");
         setStatus({status:"loading", error:null});
+        console.log(" Started getting completed order");
         await axios.get(`/api/orders/get_store_completed_orders?page=${currentPage}&limit=20&storeId=MUM1`, {
             headers:{"Authorization":`Bearer ${token}`},
         }).then((response) => {
-            setCurrentItems(response?.data.orders);
-            setTotalPages(response?.data.totalPages);
+            console.log("got completed order");
+            setActiveValues({
+                currentItems:response?.data.orders, 
+                totalPages:response?.data.totalPages
+            })
+            // setCurrentItems(response?.data.orders);
+            // setTotalPages(response?.data.totalPages);
         }).catch((err) => {
+            console.log("coudnt completed order");
             setStatus({status:"error", error:err.response?.data.message});
         })
     };
@@ -62,7 +73,7 @@ const CompletedOrderList = ({ reloadValue }) => {
     const handlePagesChange = () => {
         let currentIndex = 0;
         let newPages = [];
-        while(currentIndex < totalPages){
+        while(currentIndex < activeValues.totalPages){
             if(currentIndex > currentPage-5 || currentIndex< currentPage+5){
                 newPages.push(currentIndex+1)
             }
@@ -137,7 +148,7 @@ const CompletedOrderList = ({ reloadValue }) => {
                 </tr>
             </thead>
             <tbody>
-            {currentItems.map((order) => (
+            {activeValues.currentItems.map((order) => (
                 <tr key={order._id}>
                     <td>{order.orderId}</td>
                     <td>{order.employeeName}</td>

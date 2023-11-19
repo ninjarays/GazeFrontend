@@ -88,6 +88,25 @@ function ViewOrderDetails({orderId}) {
                      </tr>
                 </tbody>
             </Table>
+            <h3>Supplier Details</h3>
+            <Table  bordered hover>
+                
+                <tbody>
+                    <tr>
+                        <td><b>Supplyer Name</b></td>
+                        <td>{order?.order.supplierName ?? "-"}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Quote Id</b></td>
+                        <td>{order?.order.quoteImage ?? "-"}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Invoice Id</b></td>
+                        <td>{order?.order.invoiceNumber ?? "-"}</td>
+                    </tr>
+                    
+                </tbody>
+            </Table>
             <h3>Supplyer Quote</h3>
             <Table bordered hover>
                 <thead>

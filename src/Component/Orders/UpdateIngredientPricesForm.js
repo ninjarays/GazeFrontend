@@ -9,6 +9,8 @@ function UpdateIngredientPricesForm({prices, orderId, closeForm}) {
     const [variant, setVariant] = useState("light");
     const [status, setStatus] = useState({status:"idle", error:null})
     const [pricesData, setPricesData] = useState([...prices]);
+    const [quote, setQuote] = useState("");
+    const [supplier, setSupplier] = useState("");
 
     const handlePriceChange = (index, price) => {
         const updatedPrices = [...pricesData];
@@ -16,8 +18,15 @@ function UpdateIngredientPricesForm({prices, orderId, closeForm}) {
         updatedPrice.price = parseInt(price);
         updatedPrices[index] = updatedPrice;
         setPricesData(updatedPrices);
-        console.log(pricesData);
     };
+
+    const handleQuoteChange = (q) => {
+        setQuote(q);
+    }
+
+    const handleSupplierChange = (q) => {
+        setSupplier(q);
+    }
 
     useEffect(() => {
         if(status.status === "success"){
@@ -46,7 +55,9 @@ function UpdateIngredientPricesForm({prices, orderId, closeForm}) {
     const handleChangePrice = async () => {
         const data = {
           _id:orderId,
-          materialPrices:pricesData
+          materialPrices:pricesData,
+          quoteNo : quote, 
+          supplierName : supplier
         }
         setStatus({status:"loading", error:null});
         await axios.put('/api/orders/update_prices', data, {
@@ -67,6 +78,28 @@ function UpdateIngredientPricesForm({prices, orderId, closeForm}) {
                 : 
                 <div></div>
             }
+            <Form.Group controlId={`quote`}>
+            <Form.Label>Quote Number</Form.Label>
+                <Form.Control
+                    type="text"
+                    name="quote"
+                    value={quote}
+                    onChange={(e) => handleQuoteChange(e.target.value)}
+                    required
+                />
+            </Form.Group>
+
+            <Form.Group controlId={`supplier`}>
+            <Form.Label>Supplier Name</Form.Label>
+                <Form.Control
+                    type="text"
+                    name="supplier"
+                    value={supplier}
+                    onChange={(e) => handleSupplierChange(e.target.value)}
+                    required
+                />
+            </Form.Group>
+                                    
             <Table bordered hover>
                 <thead>
                     <th>Ingredient</th>
