@@ -9,8 +9,8 @@ function UpdateIngredientPricesForm({prices, orderId, closeForm}) {
     const [variant, setVariant] = useState("light");
     const [status, setStatus] = useState({status:"idle", error:null})
     const [pricesData, setPricesData] = useState([...prices]);
-    const [quote, setQuote] = useState("");
-    const [supplier, setSupplier] = useState("");
+    const [quote, setQuote] = useState(null);
+    const [supplier, setSupplier] = useState(null);
 
     const handlePriceChange = (index, price) => {
         const updatedPrices = [...pricesData];
@@ -71,13 +71,6 @@ function UpdateIngredientPricesForm({prices, orderId, closeForm}) {
     
     return (
         <div>
-            {show?
-                <Alert variant={variant} onClose={() => setShow(false)} dismissible>
-                    <Alert.Heading>{status.error ? status.error : "Order Updated"}</Alert.Heading>
-                </Alert> 
-                : 
-                <div></div>
-            }
             <Form.Group controlId={`quote`}>
             <Form.Label>Quote Number</Form.Label>
                 <Form.Control
@@ -99,7 +92,8 @@ function UpdateIngredientPricesForm({prices, orderId, closeForm}) {
                     required
                 />
             </Form.Group>
-                                    
+
+            <h3>Price Update</h3>            
             <Table bordered hover>
                 <thead>
                     <th>Ingredient</th>
@@ -128,6 +122,13 @@ function UpdateIngredientPricesForm({prices, orderId, closeForm}) {
                     }
                 </tbody>
             </Table>
+            {show?
+                <Alert variant={variant} onClose={() => setShow(false)} dismissible>
+                    <Alert.Heading>{status.error ? status.error : "Order Updated"}</Alert.Heading>
+                </Alert> 
+                : 
+                <div></div>
+            }
             <Button onClick={handleChangePrice}>Update Prices</Button>
         </div>
     );
