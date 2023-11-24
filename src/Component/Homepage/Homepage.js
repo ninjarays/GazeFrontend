@@ -84,6 +84,15 @@ const Homepage= ()=>{
           />
         </Col>: <div></div>}
 
+        {["admin", "super_admin"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/posInventory');}}>
+        <Card
+          imgSrc="https://picsum.photos/id/193/300/200"
+          imgAlt="Card-one"
+          title="POS Inventory"
+          //buttonText="Navigate.."
+          />
+        </Col>: <div></div>}
+
         {["admin", "super_admin","store_manager"].includes(user.userCred.role) ? <Col onClick={() => {navigate('/barcode');}}>
         <Card
           imgSrc="https://picsum.photos/id/193/300/200"

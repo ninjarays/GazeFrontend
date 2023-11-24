@@ -13,6 +13,7 @@ import OrderScreen from './Component/Orders/OrderScreen';
 import BarcodeGenratorScreen from './Component/Barcode/BarcodeGenratorScreen';
 import BudgetScreen from './Component/Budget/BudgetScreen';
 import SalesScreen from './Component/Sales/SalesScreen';
+import POSInventoryScreen from './Component/POSInventory/POSInventoryScreen';
 
 function App() {
   // const navigate = useNavigate();
@@ -37,6 +38,7 @@ function App() {
             <Route path='/barcode' element={<BarcodeGenratorScreen/>}/>
             <Route path='/budget' element={<BudgetScreen/>}/>
             <Route path='/sales' element={<SalesScreen/>}/>
+            <Route path='/posInventory' element={<POSInventoryScreen/>}/>
             {/* </Route>  */}
             {/* <Route path='/register' Component={Signup}/>
             {/* <Route path='/register' Component={EmployeeRegisterForm}/> */}
