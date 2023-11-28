@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Alert, Button, Modal, Spinner } from 'react-bootstrap';
 import ViewOrderDetails from './ViewOrderDetails';
 
-const CompletedOrderList = ({ reloadValue }) => {
+const CompletedOrderList = ({ reloadValue, storeId }) => {
     const token = useSelector((state) => state.user.userInfo.access_token);
     const role = useSelector((state) => state.user.userInfo.userCred.role);
     const [currentPage, setCurrentPage] = useState(1);
@@ -54,7 +54,7 @@ const CompletedOrderList = ({ reloadValue }) => {
         console.log("getting completed order");
         setStatus({status:"loading", error:null});
         console.log(" Started getting completed order");
-        await axios.get(`/api/orders/get_store_completed_orders?page=${currentPage}&limit=20&storeId=MUM1`, {
+        await axios.get(`/api/orders/get_store_completed_orders?page=${currentPage}&limit=20&storeId=${storeId}`, {
             headers:{"Authorization":`Bearer ${token}`},
         }).then((response) => {
             console.log("got completed order");
@@ -122,7 +122,7 @@ const CompletedOrderList = ({ reloadValue }) => {
                 ?
                 "Completing Order...."
                 :
-                "Order Completed"
+                "Order History Fetched"
             }</Alert.Heading>
             </Alert> 
             : 

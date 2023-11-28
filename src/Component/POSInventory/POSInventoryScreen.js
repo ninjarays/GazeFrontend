@@ -194,8 +194,11 @@ function POSInventoryScreen(props) {
                     <tr>
                         <th>Barcode</th>
                         <th>Name</th>
+                        <th>category</th>
+                        <th>Stock</th>
                         <th>Offer</th>
-                        <th>Quantity</th>
+                        <th>Cost Price</th>
+                        <th>Selling Price</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -203,8 +206,11 @@ function POSInventoryScreen(props) {
                     <tr key={product._id} >
                         <td>{product.productBarcode}</td>
                         <td>{product.productName}</td>
-                        <td>{product.productOffer}</td>
+                        <td>{product.category}</td>
                         <td>{product.quantity}</td>
+                        <td>{product.productOffer}</td>
+                        <td>{product.costPrice}</td>
+                        <td>{product.sellingPrice}</td>
                     </tr>
                 ))}
                 </tbody>

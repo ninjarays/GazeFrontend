@@ -55,7 +55,12 @@ function OrderScreen(props) {
         if(storeId){
             getAsyncOrders();
         }
-    }, [storeId,reload])
+    }, [reload])
+
+    useEffect(() => {
+      incrementReload();
+  }, [storeId])
+
 
     const incrementReload = () => {
         setReload(reload+1)
@@ -186,7 +191,7 @@ function OrderScreen(props) {
             </Tab>
             <Tab eventKey="orderHistory" title="Order History"  >
                 {!user? <div></div>:
-                <CompletedOrderList reloadValue={reload}/>}
+                <CompletedOrderList reloadValue={reload} storeId={storeId}/>}
             </Tab>
         </Tabs>
         </div>

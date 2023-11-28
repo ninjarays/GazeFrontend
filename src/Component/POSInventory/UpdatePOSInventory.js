@@ -9,6 +9,7 @@ function UpdatePOSInventory({storeId, closeForm, reload}) {
     const [show, setShow] = useState(false);
     const [variant, setVariant] = useState("light");
     const [status, setStatus] = useState({status:"idle", error:null})
+    const [disableSubmit, setDisableSubmit] = useState(false)
 
     useEffect(() => {
         if(status.status === "success"){
@@ -23,14 +24,25 @@ function UpdatePOSInventory({storeId, closeForm, reload}) {
         else if(status.status === "error"){
             setShow(true);
             setVariant("danger");
-            setTimeout(() => {
-                setStatus({status:"idle", error:null});
-            }, 2000)
+            if(status.error?.substring(0, 10) !== "Mismatched"){
+                setTimeout(() => {
+                    setStatus({status:"idle", error:status.error});
+                }, 5000)
+            }
+            else{
+                setDisableSubmit(true)
+                setTimeout(() => {
+                    setStatus({status:"idle", error:status.error});
+                    closeForm(false)
+                }, 7000)
+            }
         }
         else if(status.status === "loading"){
         }
         else if(status.status === "idle"){
-            setShow(false)
+            setDisableSubmit(false);
+            setShow(false);
+
         }
     },[status.status])
 
@@ -46,15 +58,13 @@ function UpdatePOSInventory({storeId, closeForm, reload}) {
             const formData = new FormData();
             formData.append('storeId', storeId);
             formData.append('file', file);
-
-            console.log(formData);
-
+            setDisableSubmit(true)
             await axios.put('/api/pos/update_inventory', formData, {
                 headers:{"Authorization":`Bearer ${token}`},
             }).then((response) => {
                 setStatus({status:"success", error:null});
             }).catch((err) => {
-                setStatus({status:"error", error:err.response.data.message});
+                setStatus({status:"error", error:err.response?.data.message});
             })
     
         } catch (error) {
@@ -80,7 +90,7 @@ function UpdatePOSInventory({storeId, closeForm, reload}) {
                     accept=".xlsx, .xls" 
                     onChange={handleFileChange} />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" disabled={disableSubmit}>
                     Submit
                 </Button>
             </Form>
