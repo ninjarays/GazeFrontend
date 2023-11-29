@@ -9,6 +9,7 @@ import trackingReducer from "./features/tracking/trackingSlice"
 import orderReducer from "./features/orders/orderSlice";
 import budgetReducer from "./features/budget/budgetSlice";
 import salesReducer from "./features/sales/salesSlice";
+import manufacturingReduces from "./features/manufacturing/manufacturingSlice";
 
 export const store = configureStore(
     {
@@ -23,6 +24,7 @@ export const store = configureStore(
             orders:orderReducer,
             budget:budgetReducer,
             sales:salesReducer,
+            manufacturing:manufacturingReduces
         }
     }
 );

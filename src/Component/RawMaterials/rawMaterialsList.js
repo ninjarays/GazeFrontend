@@ -1,20 +1,44 @@
 import { useDispatch, useSelector } from 'react-redux';
 import axios from '../../config/axios';
-import { deleteRawMaterial, getRawMaterialsError, getRawMaterialsLoading, getRawMaterialsSuccess } from '../../features/rawMaterial/rawMaterialSlice';
+import { deleteRawMaterial, deleteRawMaterialsReset, getRawMaterialsError, getRawMaterialsLoading, getRawMaterialsSuccess } from '../../features/rawMaterial/rawMaterialSlice';
 import React, { useEffect, useState } from 'react';
-import { Button,  Modal,  Table } from 'react-bootstrap';
+import { Alert, Button,  Modal,  Table } from 'react-bootstrap';
 import EditRawMaterialForm from './EditRawMaterial';
 
 const RawMaterialList =(props)=>{
     const materials= useSelector((state)=> state.rawMaterials.getRawMaterials);
+    const deleteStatus= useSelector((state)=> state.rawMaterials.deleteRawMaterials);
     const [editMaterial, setEditMaterial] = useState(null);
     const [showForm, setShowForm] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
     const [reload, setReload] = useState(1);
+    const [deleteMessage, setDeleteMessage] = useState(false);
     const dispatch =useDispatch();
     const token = props.token;
+
+    useEffect(() => {
+      if(deleteStatus.status === "idle"){
+          setDeleteMessage(false);
+      }
+      else if(deleteStatus.status === "error"){
+          setDeleteMessage(true);
+          // Automatically hide the notification after 2 seconds
+          const timeout = setTimeout(() => {
+              dispatch(deleteRawMaterialsReset());
+              setDeleteMessage(false);
+          }, 2000);
+
+          // Clear the timeout when the component unmounts
+          return () => clearTimeout(timeout);
+      }
+      else if(deleteStatus.status === "success"){
+          setTimeout(()=>{
+              dispatch(deleteRawMaterialsReset());
+              },2000);
+      }
+  },[deleteStatus.status])
 
     const EditMaterialForm =(props) => {
       return (
@@ -89,6 +113,9 @@ const RawMaterialList =(props)=>{
 
     return(
       <div style={{ width: '100%'}}>
+        <Alert variant="danger" show={deleteMessage}>
+            {deleteStatus.error?? ""}
+        </Alert>
       <EditMaterialForm
         show={showForm}
         onHide={() => {
