@@ -32,13 +32,13 @@ function ManufacturnigScreen(props) {
     }
     else if(["admin" , "super_admin"].includes(user?.userCred?.role ?? "")){
         setStoreId(user?.userCred?.storeId ?? "");
-        dispatch(getProducts(user.access_token));
-        dispatch(getStoreIds(user.access_token));
+        dispatch(getProducts(user?.access_token));
+        dispatch(getStoreIds(user?.access_token));
         return () => {};
     }
     else if(user?.userCred?.role === "store_manager" ?? ""){
         setStoreId(user?.userCred?.storeId ?? "");
-        dispatch(getProducts(user.access_token));
+        dispatch(getProducts(user?.access_token));
         return () => {};
     }
     else {
@@ -154,7 +154,7 @@ const SelectStoreModal = (props) => {
     </Tab >
 
     <Tab eventKey="cpmpleted" title="Completed Order">
-       {/* <CompletedManufacturingList/>   */}
+       <CompletedManufacturingList reloadValue={reload} storeId={storeId??""} />  
     </Tab>
   </Tabs>
    

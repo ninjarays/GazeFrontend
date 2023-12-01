@@ -5,6 +5,8 @@ import axios from '../../config/axios';
 import Pagination from 'react-bootstrap/Pagination';
 import { getManufacturing } from '../../features/manufacturing/manufacturingSlice';
 import EditManufactureOrder from './EditManufacuringOrderForm';
+import ManufacturingOrderDetails from './ManufacturingOrderDetails';
+
 
 
 
@@ -20,8 +22,13 @@ function PendingManufacturingList({reload,reloadValue,storeId}) {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [viewEditOrder, setViewEditOrder] = useState(false);
   const [status, setStatus] = useState({status:"idle", error:null});
-  const [pendingManufacturingInfo, setpendingManufacturingInfo] = useState({data:[],status:"idle",error:null})
+  const [completOrderStatus, setCompletOrderStatus] = useState({status:"idle", error:null});
   
+  const [pendingManufacturingInfo, setpendingManufacturingInfo] = useState({data:[],status:"idle",error:null})
+  const [viewManufacturingDetalModal,setViewManufacturingDetalModal] = useState(false);
+  const [manufactureCompletedModal,setManufactureCompletedModal]= useState(false);
+
+
   useEffect(() => {
     if(pendingManufacturingInfo.status === "success"){
         setShow(true);
@@ -47,17 +54,22 @@ function PendingManufacturingList({reload,reloadValue,storeId}) {
     }
 },[pendingManufacturingInfo.status]);
 
-const acceptManufactureingOrder = async (id) => {
-  setStatus({status:"loading", error:null});
-  await axios.put('/api/manufacture/manufacture_accepted', {id}, {
-      headers:{"Authorization":`Bearer ${token}`},
-  }).then((response) => {
-      setStatus({status:"success", error:null});
-  }).catch((err) => {
-      setStatus({status:"error", error:err.response.data.message});
-  })
-};
+useEffect(()=>{
+    if(completOrderStatus.status==="success"){
+        
+        setTimeout(() => {      
+            setCompletOrderStatus({status:"idle",error:null});
+            reload();
+            setManufactureCompletedModal(false);
+        }, 3500)
+    }
+    else if(completOrderStatus.status==="error"){
+        setTimeout(() => {      
+            setCompletOrderStatus({status:"idle",error:null});
+        }, 3500)
+    }
 
+   },[completOrderStatus])
 
 useEffect(() => {
     if(storeId!==""){
@@ -79,6 +91,16 @@ const getPendingManufacture = async () => {
     })
 };
 
+const completManufactureingOrder = async (id) => {
+    setCompletOrderStatus({status:"loading", error:null});
+    await axios.post('api/manufacture/maufacture_completed', {id}, {
+        headers:{"Authorization":`Bearer ${token}`},
+    }).then((response) => {
+        setCompletOrderStatus({status:"success", error:null});
+    }).catch((err) => {
+        setCompletOrderStatus({status:"error", error:err.response.data.message});
+    })
+  };
 
 const EditManufacturing =(props)=>{
     return(
@@ -108,7 +130,66 @@ const EditManufacturing =(props)=>{
     );
   }
   
+  const ManufacturingDetailModal =(props)=>{
+    return(
+      <Modal
+      {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+       <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Manufacturing Detail
+        </Modal.Title>
+       </Modal.Header>
+       <Modal.Body>
+           
+          <ManufacturingOrderDetails
 
+          id={selectedOrder?._id??""}
+          isDisable={selectedOrder?.status===1??false}
+          reload={reload}
+          closeForm={setViewManufacturingDetalModal}
+          />
+            
+       </Modal.Body>
+      </Modal>
+    );
+  }
+  
+   const ManufacturingCompletedModal =(props)=>{
+    return(
+      <Modal
+      {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+       <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Complete Manufacturing 
+        </Modal.Title>
+       </Modal.Header>
+       <Modal.Body>
+           
+       <Button disabled={completOrderStatus.status!=="idle" || selectedOrder?.status!==1}
+        onClick={()=>{
+                completManufactureingOrder(selectedOrder?._id);
+                
+            
+        }}>
+            {completOrderStatus.status==="idle"?<h5><p>Confirm Accept</p></h5>:
+        completOrderStatus.status==="loading"?<Spinner/>:
+        completOrderStatus.status==="error"? <p>{completOrderStatus.error??"Something went wrong"}</p>:  
+        <p><h5>Success</h5></p>}
+        </Button>
+            
+       </Modal.Body>
+      </Modal>
+    );
+  }
+  
   return (
 
 <>
@@ -118,6 +199,20 @@ const EditManufacturing =(props)=>{
                     setViewEditOrder(false);
                 }}
             />
+
+<ManufacturingDetailModal
+   show={viewManufacturingDetalModal}
+   onHide={()=>{
+    setViewManufacturingDetalModal(false);
+   }}
+/>
+
+<ManufacturingCompletedModal
+    show={manufactureCompletedModal}
+    onHide={()=>{
+        setManufactureCompletedModal(false);
+    }}
+/>
 <div style={{ width: '100%', height: '600px', overflow: 'auto' }} >
             { pendingManufacturingInfo.status === "idle" ? <></>
             :
@@ -133,31 +228,43 @@ const EditManufacturing =(props)=>{
                         <th>Requested By</th>
                         <th>Product</th>
                         <th>Production Month</th>
-                        <th>Production Year</th>
-                        <th>Individual Package Type(gms)</th>
+        
+                        <th>Package Type</th>
                         <th>Package Quantity</th>
-                        <th>Total Quantity(gms)</th>   
-                        <th>Edit</th>                     
-                        <th>Accept Order</th>
+                        <th>Total Quantity</th>   
+                        <th>Edit</th> 
+                        <th>View Inventory</th>                    
+                        
                         <th>Completed</th>
                     </tr>
                 </thead>
                 <tbody>
                 {pendingManufacturingInfo.data.map((order) => (
-                    <tr key={order._id} >
+                    <tr key={order._id} style={{backgroundColor: order.status === 0? 'white':'#bcf7db'}}>
                         <td>{order.adminId}</td>
                         <td>{order.product}</td>
-                        <td>{order.productionMonth.month}</td>
-                        <td>{order.productionMonth.year}</td>
-                        <td>{order.package.packageType}</td>
-                        <td>{order.package.packageQuantity}</td>
-                        <td>{order.weight}</td>
-                        <td><Button onClick={() => {
+                        <td>{order.productionMonth.month} {order.productionMonth.year}</td>
+                        
+                        <td>{order.package.packageType} gm</td>
+                        <td>{order.package.packageQuantity} </td>
+                        <td>{order.weight} gm</td>
+                        <td><Button disabled={order.status===1}
+                        onClick={() => {
                             setSelectedOrder(order);
                             setViewEditOrder(true);
                         }}>Edit</Button></td>
-                        <td><Button>Accept</Button></td>
-                        <td><Button>Complete</Button></td>
+                        <td><Button 
+                         onClick={() => {
+                            setSelectedOrder(order);
+                            setViewManufacturingDetalModal(true);
+                        }}>Accept</Button></td>
+                       
+                        <td><Button 
+                        disabled={order.status===0}
+                        onClick={() => {
+                            setSelectedOrder(order);
+                            setManufactureCompletedModal(true);
+                        }}>Complete</Button></td>
                         
                     </tr>
                 ))}
