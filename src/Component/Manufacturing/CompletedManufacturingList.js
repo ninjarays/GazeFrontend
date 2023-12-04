@@ -3,12 +3,14 @@ import { Alert, Button, Form, Modal, Table,Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from '../../config/axios';
 import Pagination from 'react-bootstrap/Pagination';
-const CompletedManufacturingList = ({reloadValue,storeId}) => {
+import OrderBatchesDetail from './OrderBatchesDetail';
 
-  const token = useSelector((state) => state.user.userInfo.access_token);
-  
-  const [completManufacturingInfo, setcompletManufacturingInfo] = useState({data:[],status:"loading",error:null})
-  
+
+const CompletedManufacturingList = ({reloadValue,storeId}) => {
+  const token = useSelector((state) => state.user.userInfo);
+  const [completManufacturingInfo, setcompletManufacturingInfo] = useState({data:[],status:"loading",error:null});
+  const [viewOrderBatches, setViewOrderBatches] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
  
 useEffect(() => {
   if(storeId!==""){
@@ -17,10 +19,29 @@ useEffect(() => {
   
 }, [storeId,reloadValue])
 
+const OrderBatchesDetailModal =(props)=>{
+  return(
+      <Modal
+          {...props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered >
+          <Modal.Header closeButton>
+              <Modal.Title id="contained-modal-title-vcenter">
+                  Batches Detail
+              </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+              <OrderBatchesDetail order={selectedOrder}/>
+          </Modal.Body>
+      </Modal>
+  );
+}
+
 const getCompletManufacture = async () => {
   setcompletManufacturingInfo({data:[],status:"loading",error:null});
   await axios.get(`api/manufacture/get_completed_manufacture_order/${storeId}`, {
-      headers:{"Authorization":`Bearer ${token}`},
+      headers:{"Authorization":`Bearer ${token.access_token}`},
   }).then((response) => {
       setcompletManufacturingInfo({data:response.data,status:"success",error:null});
   }).catch((err) => {
@@ -30,6 +51,12 @@ const getCompletManufacture = async () => {
 
   return (
     <>
+    <OrderBatchesDetailModal
+    show={viewOrderBatches}
+    onHide={()=>{
+        setViewOrderBatches(false);
+    }}
+/>
      <div style={{ width: '100%', height: '600px', overflow: 'auto' }} >
             {
             completManufacturingInfo.status === "loading" ? <Spinner/>
@@ -47,9 +74,8 @@ const getCompletManufacture = async () => {
                         <th>Production Year</th>
                         <th>Packege Type</th>
                         <th>Package Quantity</th>
-                        <th>Total Quantity</th>                        
-                        {/* <th>Accept Order</th>
-                        <th>Completed</th> */}
+                        <th>Total Quantity</th> 
+                        <th>Batches</th>
                     </tr>
                 </thead>
 
@@ -65,7 +91,13 @@ const getCompletManufacture = async () => {
                         <td>{order.package.packageType}</td>
                         <td>{order.package.packageQuantity}</td>
                         <td>{order.weight}</td>
-                        
+                        <td>
+                          <Button 
+                             onClick={() => {
+                                setSelectedOrder(order);
+                                setViewOrderBatches(true);
+                          }}>Details</Button>
+                        </td>
                         
                     </tr>
                 ))}
