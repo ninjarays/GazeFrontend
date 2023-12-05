@@ -26,7 +26,7 @@ function OrderBatchesDetail({order}) {
                                                 {mat.batches?.map((batch) => (
                                                     <tr>
                                                         <td>{batch.batchId}</td>
-                                                        <td>{batch.weight}</td>
+                                                        <td>{batch.weight.toFixed(3)}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>

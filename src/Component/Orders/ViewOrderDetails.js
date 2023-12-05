@@ -119,7 +119,7 @@ function ViewOrderDetails({orderId}) {
                         order?.order?.materialPrices.map((p,index) => (
                             <tr>
                                 <td>{p.materialName}</td>
-                                <td>{p.weight}</td>
+                                <td>{p.weight.toFixed(6)}</td>
                                 <td>{p.price}</td>
                             </tr>
                         ))
@@ -150,7 +150,7 @@ function ViewOrderDetails({orderId}) {
                                     {product.materials.map((material) => (
                                         <tr key={material.name}>
                                             <td>{material.name}</td>
-                                            <td>{material.weight}kg</td>
+                                            <td>{material.weight.toFixed(6)}kg</td>
                                         </tr>
                                         
                                     ))}

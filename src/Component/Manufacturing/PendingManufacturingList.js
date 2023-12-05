@@ -59,7 +59,7 @@ function PendingManufacturingList({reload,reloadValue,storeId}) {
                 setCompletOrderStatus({status:"idle",error:null});
                 reload();
                 setManufactureCompletedModal(false);
-            }, 3500)
+            }, 2000)
         }
         else if(completOrderStatus.status==="error"){
             setTimeout(() => {      
@@ -90,7 +90,7 @@ function PendingManufacturingList({reload,reloadValue,storeId}) {
     const completManufactureingOrder = async (id) => {
         setCompletOrderStatus({status:"loading", error:null});
         await axios.post('api/manufacture/maufacture_completed', {id}, {
-            headers:{"Authorization":`Bearer ${token}`},
+            headers:{"Authorization":`Bearer ${token.access_token}`},
         }).then((response) => {
             setCompletOrderStatus({status:"success", error:null});
         }).catch((err) => {
