@@ -1,0 +1,180 @@
+.body{
+    background-color: #e6e6e6;
+    height: 90vh;
+    display: flex;
+    flex-direction: row;
+}
+.head-tile1{
+    background: #0d99ff;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: white;
+
+}
+.head-tile2{    background: #0d99ff;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: white;
+
+}
+.billing-tick-row{
+    width: 80vw;
+    padding-left: 5vw;
+}
+.button-row{
+    display: flex;
+    width: 15vw;
+    margin-left: 2vw;
+    margin-bottom: 7vh;
+    margin-top: 18.3vh;
+    align-content: space-between;
+    justify-content: center;
+}
+
+.head-title{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6vh;
+    margin-bottom: 6vh;
+    font-size: x-large;
+}
+
+.table-billing {
+    background-color: #0d99ff;
+    height: 65vh;
+    padding-top: 5vh;
+    padding-left: 4vw;
+    padding-right: 4vw;
+    padding-bottom: 5vh;
+    overflow-y: auto;
+}
+.billing-button{
+    padding: 20px;
+    font-size: x-large;
+    height: 10vh;
+    color: white;
+    cursor: pointer;
+}
+
+table{
+    width: 100%;
+}
+.table-billing table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+
+  .table-billing td {
+    background-color: white;
+    padding: 10px;
+    font-size: large;
+    font-weight: 500;
+}
+
+.table-billing tbody td {
+    border-top: 30px solid #0d99ff;
+}
+.table-billing thead .title-row th {
+    font-size: large;
+    font-weight: 500;
+  }
+.span-th{
+    background: white;
+    padding: 10px 20px;
+}
+.quantity-container{
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
+.button-quantity{
+    background: white;
+    border-radius: 100px;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    padding: 0;
+    border: 2px solid black;
+    padding-left: 5px;
+    padding-bottom: 8px;
+    font-size: xxx-large;
+    flex-direction: row;
+    align-items: center;
+
+}
+.button-quantityPlus{
+    background: white;
+    border-radius: 100px;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    padding: 0;
+    border: 2px solid black;
+    padding-bottom: 8px;
+    font-size: xx-large;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 5px;
+
+}
+
+
+/* --------------------split-------------------- */
+.split{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+}
+.split-box{
+    height: 55%;
+    width: 45%;
+    display: flex;
+    background: #0d99ff;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2%;
+    font-size: large;
+    font-weight: 600;
+}
+
+.split-text{
+    background: white;
+    padding: 1rem 2rem;
+    /* margin: 1rem; */
+
+}
+.row2s{
+    margin: 5% 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+.row2cash{
+    margin-bottom: 2%;
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+}
+.button-split{
+    display: flex;
+    width: 80%;
+    height: 25%;
+    margin-top: 3%;
+}
+
+.row2gpay{
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+}
