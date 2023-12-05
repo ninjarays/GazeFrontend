@@ -1,4 +1,4 @@
-.center {
+/* .center {
     width: 100%;
     height: 90vh;
     display: flex;
@@ -57,4 +57,123 @@
     .login-container{
         width: 90%;
     }
+} */
+
+
+
+.center {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login {
+    width: 50%;
+    background: #fff;
+    border: 1px solid #dddfe2;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+    border-radius: 8px;
+    padding: 1rem;
+    align-items: center;
+    text-align: center;
+}
+
+.login > input {
+    border-radius: 8px;
+    border: 2px solid #dddfe2;
+    outline: none;
+    color: #1d2129;
+    margin: 0.5rem 0;
+    padding: 0.5rem 0.75rem;
+    width: 92%;
+    font-size: 1rem;
+}
+
+.login > .button {
+    background: #1877f2;
+    border: 1px solid #1877f2;
+    color: #fff;
+    font-size: 1.25rem;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+}
+
+.login-container {
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+
+@media only screen and (max-width: 550px){
+    .login-container{
+        width: 90%;
+    }
+    .login-tab{
+        width: 90vw!important;
+    }
+}
+
+.login-tab{
+    width: 40vw;
+    display: flex;
+    height: 80%;
+    flex-direction: column;
+    justify-content: center;
+    
+} 
+
+.tab-container{
+    justify-content: center;
+}
+.pos-container{
+    height: 31.5vh;
+}
+.pos-innercontainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.pos-box{
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 5%;
+    background: #1877f2;
+    color: white;
+    width: 30%;
+    border-radius: 18px;
+    text-align: center;
+    font-size: large;
+}
+/* .store-number-tex{
+    background: #1877f2;
+    color: white;
+    border: none;
+    padding: 5%;
+    text-align: center;
+    font-size: large;
+}          
+
+.store-number-tex::placeholder{
+    color: white;
+} */
+
+.submit-code{
+    margin: 0;
+    border-radius: 0!important;
+    
 }

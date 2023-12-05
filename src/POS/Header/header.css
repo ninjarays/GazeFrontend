@@ -1,0 +1,34 @@
+.nav0{
+    height: 10vh;
+    background: #0d99ff;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: x-large;
+    flex-wrap: nowrap;
+}
+.nav1{
+display: flex;
+padding-left: 20px;
+}
+.nav2{
+display: flex;
+padding-right: 20px;
+}
+.nav-t{
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-top: 10px;
+}
+
+.date-nav{
+    font-size: large;
+}
+.date-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 1px;
+    align-items: center;
+}

@@ -16,21 +16,36 @@ import SalesScreen from './Component/Sales/SalesScreen';
 import POSInventoryScreen from './Component/POSInventory/POSInventoryScreen';
 import RawMaterialInventoryScreen from './Component/RawMaterialInventory/RawMaterialInventoryScreen';
 import ManufacturnigScreen from './Component/Manufacturing/ManufacturnigScreen';
+import LoginTab from './Component/login/loginTab';
+import HeaderPOS from './POS/Header/Header';
+import Billing from './POS/Billing/Billing';
+import DashboardPos from './POS/Dashboard/Dashboard';
+import Split from './POS/Billing/Split';
 
 function App() {
   // const navigate = useNavigate();
   // const navigateLoginPage = () => {
   //       navigate('/login');
   // };
+  const isPOSRoute = window.location.pathname.startsWith('/pos');
+  const DefaultLayout = ({ children }) => (
+    <div className="default-layout">
+      <HeaderPOS/>
+      {children}
+      
+    </div>
+  );
   return (
     <div className="App">
       
       <BrowserRouter>
-      <Header/>
+      {/* <Header/> */}
+      {!isPOSRoute && <Header />}
         
           <Routes>
             <Route path='/' Component={Homepage}/>
             <Route path='/login' Component={Login}/>
+            <Route path='/loginTab' element={<LoginTab/>}/>
             {/* <Route Component={<AdminRoutes/>}> */}
             <Route path='/dashboard' element={<DashboardScreen/>}/>
             <Route path='/tracking' element={<TrackingScreen/>}/>
@@ -46,10 +61,13 @@ function App() {
             {/* </Route>  */}
             {/* <Route path='/register' Component={Signup}/>
             {/* <Route path='/register' Component={EmployeeRegisterForm}/> */}
-            
+          <Route  path='/pos-billing/:storeNumber' element={<DefaultLayout><Billing/></DefaultLayout>}/>
+          <Route path='/pos-dashboard/:storeNumber' element={<DefaultLayout><DashboardPos/></DefaultLayout>}/>  
+          <Route path='/pos-dashboard/:storeNumber/split' element={<DefaultLayout><Split/></DefaultLayout>}/>
 
           </Routes>
-          <Footer/>
+          {/* <Footer/> */}
+          {!isPOSRoute && <Footer />}
       </BrowserRouter>
       
     </div>
