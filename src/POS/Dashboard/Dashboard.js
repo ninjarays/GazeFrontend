@@ -1,64 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Dashboard.css";
+import { Button, Col, Modal, Row } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router";
+import BillByBillNumber from "./BillByBillNumber";
+import BillByContactNumber from "./BillByContactNumber";
 
 const DashboardPos = () => {
+  const { storeNumber } = useParams();
+  const navigate = useNavigate();
+  const [showFindByIdModal, setShowFindByIdModal] = useState(false); 
+  const [showFindByContactModal, setShowFindByContactModal] = useState(false); 
+
+
+  const navigateToBilling = () => {
+    navigate(`/pos-billing/${storeNumber}`);
+  }
+
+  const FindByIdModal = (props) => {
+    return (
+        <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Find Bill By Bill Number</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <BillByBillNumber modalVisible={setShowFindByIdModal}/>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
+  const FindByContactModal = (props) => {
+    return (
+        <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Find Bill By Contact Number</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <BillByContactNumber modalVisible={setShowFindByContactModal}/>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
+  const handleCloseFindByIdModal = () => {
+    setShowFindByIdModal(false)
+  }
+
+  const handleCloseFindByContactModal = () => {
+    setShowFindByContactModal(false)
+  }
+
   return (
-    <div className="body-dash">
-      <div className="dashboard">
-        <div className="head-title">
-          <div className="headtile1">Sales Dashboard</div>
-        </div>
-        <div className="table-billing">
-          <table>
-            <thead>
-              <tr className="title-row">
-                <th className="d-flex align-items-start">
-                  <span className="span-th">Sale Ticket #</span>
-                </th>
-                <th className="">
-                  <span className="span-th">Date</span>
-                </th>
-                <th className="">
-                  <span className="span-th">Product X Qtty</span>
-                </th>
-                <th className="">
-                  <span className="span-th">Total Price</span>
-                </th>
-                <th className="d-flex justify-content-end">
-                  <span className="span-th">Mode Of Payment</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>123</td>
-                <td>{123}</td>
-                <td>{500}</td>
-                <td>{12}</td>
-                <td >Gpay</td>
-              </tr>
+    <div >
+      <FindByIdModal show={showFindByIdModal} onHide={handleCloseFindByIdModal}/>
+      <FindByContactModal show={showFindByContactModal} onHide={handleCloseFindByContactModal}/>
+      <Row className="justify-content-md-center">
+        <Col  xs lg="2">
+          <Button onClick={() => {setShowFindByIdModal(true)}}> Find Bill By Bill Number</Button>
+        </Col>
+        <Col  xs lg="2">
+          <Button onClick={() => {setShowFindByContactModal(true)}}> Find Bill By Contact No</Button>
+        </Col>
+        <Col xs lg="2">
+          <Button onClick={navigateToBilling}>New Bill</Button>
+        </Col>
+      </Row>
 
-              <tr>
-                <td>456</td>
-                <td>{456}</td>
-                <td>{250}</td>
-                <td>{10}</td>
-                <td>Gpay</td>
-
-              </tr>
-
-              <tr>
-                <td>789</td>
-                <td>{789}</td>
-                <td>{300}</td>
-                <td>{20}</td>
-                <td>Gpay</td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
   );
 };

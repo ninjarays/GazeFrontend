@@ -118,9 +118,6 @@ const EditManufactureOrder = ({ storeId,order,productsOptions,closeForm,reload }
   const handleSubmit = async(e) => {
    
     e.preventDefault();
-    
-    
-   
     setStatus({status:"loading", error:null});
     await axios.put('/api/manufacture/edit_manufacturing_order', {...formData,manufactureMonth:months[formData.manufactureMonth-1]}, {
        headers:{"Authorization":`Bearer ${token}`},
@@ -131,10 +128,6 @@ const EditManufactureOrder = ({ storeId,order,productsOptions,closeForm,reload }
     })
     console.log(storeId);
    console.log('Manufacturing Order Edited Data:', formData);
-
-  
-
-
   };
 
   return (

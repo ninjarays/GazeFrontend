@@ -6,31 +6,69 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import CompleteBillForm from './CompleteBillForm';
 
 const Billing = () => {
   const [data, setData] = useState([]);
+  const [inventory, setInventory] = useState(null);
+  const [reload, setReload] = useState(0);
   const [inputCode, setInputCode] = useState('');
   const [showModal, setShowModal] = useState(false); 
+  const [showBillibgModal, setShowBillingModal] = useState(false); 
   const { storeNumber } = useParams();
   const navigate = useNavigate();
- 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      const { key } = event;
 
-      if (key === 'Enter') {
-        handleAddProduct();
-      } else if (isAlphanumeric(key)) {
-        setInputCode((prevInput) => prevInput + key);
+  useEffect(() => {
+    console.log("loading");
+    handleCancel();
+    getInventory();
+  },[reload])
+
+  const getInventory = async () => {
+    console.log("getting inventory");
+    const response = await axios.get(`/api/pos/get_pos_store/${storeNumber}`);
+    console.log("got inventory");
+    setInventory(response.data.products);
+  }
+
+  const incrementReload = () => {
+    console.log("incrementing reload");
+    setReload(reload+1);
+  }
+ 
+  const handleKeyDown = (event) => {
+    const { key } = event;
+
+    if (key === 'Enter') {
+      handleAddProduct();
+    } else if (isAlphanumeric(key)) {
+      setInputCode((prevInput) => prevInput + key);
+    }
+  };
+
+  useEffect(() => {
+      // console.log("adding event listner");
+      // document.addEventListener('keydown', handleKeyDown);
+      // return () => {
+      //   console.log("removing listner");
+      //   document.removeEventListener('keydown', handleKeyDown);
+      // };
+      if(showBillibgModal){
+        console.log("removing listner");
+        document.removeEventListener('keydown', handleKeyDown);
       }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [inputCode]);
+      else{
+        console.log("adding event listner");
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+          console.log("removing listner");
+          document.removeEventListener('keydown', handleKeyDown);
+        };
+      }
+  }, [inputCode, inventory, showBillibgModal]);
 
   const isAlphanumeric = (input) => /^[a-zA-Z0-9]$/.test(input);
+
   const handleQuantityChange = (index, change) => {
     const newData = [...data];
     newData[index].quantity += change;
@@ -39,14 +77,15 @@ const Billing = () => {
     }
     setData(newData);
   };
-    const getProductByCode = async (code) => {
+
+  const getProductByCode = async (code) => {
       try {
-        const response = await axios.get(`/api/pos/get_pos_store/${storeNumber}`);
-        const products = response.data.products;
+        const products = inventory ?? [];
         const product = products.find((p) => p.productBarcode === code);
     
         if (product) {
           return {
+            productId:product.productId,
             barcode: product.productBarcode,
             productName: product.productName,
             offer: product.productOffer,
@@ -60,32 +99,24 @@ const Billing = () => {
         console.error('Error fetching products:', error);
         return null;
       }
-    };
+  };
+
   const handleAddProduct = async () => {
     const product = await getProductByCode(inputCode);
     if (product) {
-      console.log('Product:', product);
-      console.log('DAATA:', data);
-
       const existingProductIndex = data.findIndex((item) => item.barcode === product.barcode);
   
       if (existingProductIndex !== -1) {
         const newData = [...data];
-        console.log(newData);
-        console.log('Before update:', newData);
         newData[existingProductIndex].quantity ++;
-        console.log('After update:', newData);
         setData(newData);
-        console.log('Updated Product List:', newData);
       } else {
         const newData = [...data, { ...product, quantity: 1 }];
         setData(newData);
-        console.log('Updated Product List:', newData);
       }
       
       setInputCode('');
     } else {
-      console.log(`Product not found for code: ${inputCode}`);
       setShowModal(true);
     }
     setInputCode('');
@@ -94,6 +125,7 @@ const Billing = () => {
   const calculateTotalBill = () => {
     return data.reduce((total, item) => total + calculateTotalPrice(item), 0);
   };
+
   const calculateTotalPrice = (item) => {
     if (item.offer === 'NOPR') {
       return item.quantity * item.totalPrice; // No discount
@@ -117,17 +149,42 @@ const Billing = () => {
     }
    
   };
+
   const handleCancel = () => {
-    
     setData([]);
   };
+
+  const handleCompleteBill = () => {
+    setShowBillingModal(true);
+  }
+
   const handleSplit = () => {
     navigate(`/pos-dashboard/${storeNumber}/split`);
-
   }
+
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
+  const handleCloseBillingModal = () => {
+    setShowBillingModal(false);
+  };
+
+  const BillingModal = (props) => {
+    return (
+        <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <CompleteBillForm products={data} storeId={storeNumber} reload={incrementReload} modalVisible={setShowBillingModal}/>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
   return (
     <div className='body'>
       <Modal show={showModal} onHide={handleCloseModal}>
@@ -141,12 +198,14 @@ const Billing = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <BillingModal show={showBillibgModal} onHide={handleCloseBillingModal}/>
       <div className='billing-tick-row'>
         <div className='head-title'>
           <div className='head-tile1'>Billing</div>
           <input
             type='text'
-            placeholder='Enter alphanumeric code'
+            placeholder='Enter Barcode'
             value={inputCode}
             onKeyDown={(e) => {
               const { key } = e;
@@ -193,9 +252,9 @@ const Billing = () => {
       </div>
       <Row className='button-row'>
         <div className=' btn bg-danger billing-button'  onClick={handleCancel} >Cancel</div>
-        <div className='btn bg-success billing-button' >Cash</div>
-        <div className='btn bg-success billing-button' >GPay</div>
-        <div className='btn bg-success billing-button' onClick={handleSplit}>Split</div>
+        {/* <div className='btn bg-success billing-button' >Cash</div>
+        <div className='btn bg-success billing-button' >GPay</div> */}
+        <div className='btn bg-success billing-button' onClick={handleCompleteBill}>Bill</div>
       </Row>
     </div>
   );

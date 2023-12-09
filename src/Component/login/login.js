@@ -6,6 +6,7 @@ import { Form, Button, Alert, Row, Col, Container } from 'react-bootstrap';
 import "./login.css"
 
 import { loginUser, resetLoginState } from "../../features/user/userSlice"
+import LoginTab from "./loginTab";
 
 const Login= ()=>{
     const user = useSelector((state) => state.user);
@@ -94,56 +95,59 @@ const Login= ()=>{
 
 
     return (
- <div className="center"  >        
-    <Container >
-    {show?
-            <Alert variant={variant} onClose={() => setShow(false)} dismissible>
-                <Alert.Heading>{user.error ? user.error : "Logged In"}</Alert.Heading>
-              </Alert> : <div></div>
-            }
-    <div className="login-container">
-      <Row className="justify-content-center">
-        <Col md={6} sm={12}>
-          <h1 style={{textAlign:"center",fontSize:"25px"}}>GAZE LOGIN</h1>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="email" >
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                isInvalid={!!errors.email}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors.email}
-              </Form.Control.Feedback>
-            </Form.Group>
+//  <div className="center"  >        
+//     <Container >
+//     {show?
+//             <Alert variant={variant} onClose={() => setShow(false)} dismissible>
+//                 <Alert.Heading>{user.error ? user.error : "Logged In"}</Alert.Heading>
+//               </Alert> : <div></div>
+//             }
+//     <div className="login-container">
+//       <Row className="justify-content-center">
+//         <Col md={6} sm={12}>
+//           <h1 style={{textAlign:"center",fontSize:"25px"}}>GAZE LOGIN</h1>
+//           <Form onSubmit={handleSubmit}>
+//             <Form.Group controlId="email" >
+//               <Form.Label>Email Address</Form.Label>
+//               <Form.Control
+//                 type="email"
+//                 name="email"
+//                 value={formData.email}
+//                 onChange={handleChange}
+//                 isInvalid={!!errors.email}
+//               />
+//               <Form.Control.Feedback type="invalid">
+//                 {errors.email}
+//               </Form.Control.Feedback>
+//             </Form.Group>
 
-            <Form.Group controlId="password" >
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                isInvalid={!!errors.password}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors.password}
-              </Form.Control.Feedback>
-            </Form.Group>
+//             <Form.Group controlId="password" >
+//               <Form.Label>Password</Form.Label>
+//               <Form.Control
+//                 type="password"
+//                 name="password"
+//                 value={formData.password}
+//                 onChange={handleChange}
+//                 isInvalid={!!errors.password}
+//               />
+//               <Form.Control.Feedback type="invalid">
+//                 {errors.password}
+//               </Form.Control.Feedback>
+//             </Form.Group>
 
-            <Button variant="primary"    type="submit">
-              Submit
-            </Button>
-          </Form>
-        </Col>
-      </Row>
-      </div>
-    </Container>
+//             <Button variant="primary"    type="submit">
+//               Submit
+//             </Button>
+//           </Form>
+//         </Col>
+//       </Row>
+//       </div>
+//     </Container>
 
-        </div>
+//         </div>
+
+        <LoginTab/>
+
     )
 }
 
